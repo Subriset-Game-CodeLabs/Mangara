@@ -5344,7 +5344,7 @@ GameObject:
   - component: {fileID: 1511420239}
   - component: {fileID: 1511420238}
   - component: {fileID: 1511420237}
-  - component: {fileID: 1511420236}
+  - component: {fileID: 1511420241}
   m_Layer: 5
   m_Name: HUD
   m_TagString: Untagged
@@ -5352,20 +5352,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1511420236
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1511420235}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 033738d1077e6ed458adeec00de0d2ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UIManager
-  interactionText: {fileID: 1000465036}
-  offset: {x: 0, y: 1.5, z: 0}
 --- !u!114 &1511420237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5450,6 +5436,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1511420241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1511420235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f94db9677a7547cebab12bd7c24cb1cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Manager.UIManager
+  _playerInventoryPage: {fileID: 0}
+  _externalInventoryPage: {fileID: 0}
+  _itemSelector: {fileID: 0}
+  _timeText: {fileID: 0}
+  interactionText: {fileID: 1000465036}
+  offset: {x: 0, y: 0.5, z: 0}
 --- !u!1 &1560700401
 GameObject:
   m_ObjectHideFlags: 0

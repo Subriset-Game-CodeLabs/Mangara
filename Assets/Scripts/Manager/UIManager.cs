@@ -14,6 +14,17 @@ namespace Manager
         [SerializeField] private UIItemSelector _itemSelector;
 
         [SerializeField] private TMP_Text _timeText;
+
+
+        // From HUD UIManager
+        [Header("UI References")]
+        [SerializeField] private TextMeshProUGUI interactionText;
+
+        [Header("Settings")]
+        [SerializeField] private Vector3 offset = new Vector3(0, 0.5f, 0);
+
+        private Transform seedTarget;
+
         public void ToogleInventory(InventoryHandler inventoryHandler)
         {
             if (_playerInventoryPage.gameObject.activeSelf)
@@ -33,7 +44,7 @@ namespace Manager
                 }
             }
         }
-        
+
         public void ToogleChest(InventoryHandler inventoryHandler)
         {
             if (_externalInventoryPage.gameObject.activeSelf)
@@ -62,12 +73,20 @@ namespace Manager
             InputManager.Instance.UIMode();
             _itemSelector.Show(items, onItemSelected);
         }
-        
-        
+
+
 
         private void Update()
         {
             ConvertTime(GameManager.Instance.TimeOfDay);
+
+
+            // From HUD UIManager
+            if (seedTarget != null && interactionText.gameObject.activeSelf)
+            {
+                Vector2 posisiLayar = Camera.main.WorldToScreenPoint(seedTarget.position + offset);
+                interactionText.transform.position = posisiLayar;
+            }
         }
 
         private void ConvertTime(float timeValue)
@@ -81,10 +100,24 @@ namespace Manager
                 interval = 0;
             }
             int minutes = interval * 10;
-            
+
             _timeText.text = $"{hour:00}:{minutes:00}";
         }
-        
-        
+
+
+
+        // From HUD UIManager
+        public void ShowText(string text, Transform target)
+        {
+            interactionText.text = text;
+            seedTarget = target;
+            interactionText.gameObject.SetActive(true);
+        }
+
+        public void HideText()
+        {
+            seedTarget = null;
+            interactionText.gameObject.SetActive(false);
+        }
     }
 }
