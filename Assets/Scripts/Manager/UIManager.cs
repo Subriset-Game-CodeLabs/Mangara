@@ -29,6 +29,13 @@ namespace Manager
         {
             if (_playerInventoryPage.gameObject.activeSelf)
             {
+                // If the chest is open, close it together with the player inventory
+                if (_externalInventoryPage.gameObject.activeSelf)
+                {
+                    _externalInventoryPage.Hide();
+                    InventoryStateData.ChestInventory = null;
+                }
+
                 _playerInventoryPage.Hide();
                 Time.timeScale = 1;
                 InputManager.Instance.PlayerMode();
@@ -49,10 +56,13 @@ namespace Manager
         {
             if (_externalInventoryPage.gameObject.activeSelf)
             {
+                // Closing the chest also closes the player inventory
                 _externalInventoryPage.Hide();
+                InventoryStateData.ChestInventory = null;
+
+                _playerInventoryPage.Hide();
                 Time.timeScale = 1;
                 InputManager.Instance.PlayerMode();
-                InventoryStateData.ChestInventory = null;
             }
             else
             {
@@ -63,6 +73,17 @@ namespace Manager
                 foreach (var item in inventoryHandler.InventoryData.GetCurrentInventoryState())
                 {
                     _externalInventoryPage.UpdateData(item.Key, item.Value.Item.ItemSprite, item.Value.Quantity);
+                }
+
+                // Ensure the player inventory is visible alongside the chest
+                if (!_playerInventoryPage.gameObject.activeSelf)
+                {
+                    _playerInventoryPage.Show();
+                    var playerHandler = InventoryController.Instance.InventoryHandler;
+                    foreach (var item in playerHandler.InventoryData.GetCurrentInventoryState())
+                    {
+                        _playerInventoryPage.UpdateData(item.Key, item.Value.Item.ItemSprite, item.Value.Quantity);
+                    }
                 }
             }
         }

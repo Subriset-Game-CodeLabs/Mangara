@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[ManageableData]
 [CreateAssetMenu(fileName = "MangroveData", menuName = "Scriptable Objects/MangroveData")]
 public class MangroveDataSO : ScriptableObject
 {

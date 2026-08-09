@@ -32,8 +32,6 @@ public class ChestController : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        
-        UIManager.Instance.ToogleInventory(InventoryController.Instance.InventoryHandler);
         UIManager.Instance.ToogleChest(_inventoryHandler);
     }
     

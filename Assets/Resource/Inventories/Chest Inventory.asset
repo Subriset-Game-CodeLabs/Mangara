@@ -27,12 +27,6 @@ MonoBehaviour:
     Item: {fileID: 0}
   - Quantity: 0
     Item: {fileID: 0}
-  - Quantity: 0
-    Item: {fileID: 0}
-  - Quantity: 0
-    Item: {fileID: 0}
-  - Quantity: 0
-    Item: {fileID: 0}
   _inventoryType: 1
   _inventoryID: HomeChest
-  <Size>k__BackingField: 10
+  <Size>k__BackingField: 7

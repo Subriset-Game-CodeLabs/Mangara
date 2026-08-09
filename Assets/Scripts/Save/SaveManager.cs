@@ -102,6 +102,19 @@ namespace Save
 
         public bool HasSaveFile() => File.Exists(SavePath);
 
+        public void DeleteSave()
+        {
+            if (File.Exists(SavePath))
+            {
+                File.Delete(SavePath);
+                Debug.Log($"Save file deleted: {SavePath}");
+            }
+            else
+            {
+                Debug.Log("No save file found to delete.");
+            }
+        }
+
         public void RegisterPlantSite(MangroveController mangroveController)
         {
             _plantSites.Add(mangroveController);

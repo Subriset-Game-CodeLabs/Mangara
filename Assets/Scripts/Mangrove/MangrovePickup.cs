@@ -1,10 +1,11 @@
+using Item;
 using Manager;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class MangrovePickup : MonoBehaviour
 {
-    [SerializeField] private ItemBaseSO mangroveSeedData;
+    [SerializeField] private ItemMangroveSO mangroveSeedData;
     
     private bool isPlayerNearby = false;
 

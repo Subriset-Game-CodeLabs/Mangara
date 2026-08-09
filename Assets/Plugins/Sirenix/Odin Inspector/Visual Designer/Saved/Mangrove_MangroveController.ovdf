@@ -1,0 +1,29 @@
+OVDF v1.1
+Mangrove.MangroveController, Assembly-CSharp
+MetaGuid:53cec6a858ee4b9c89a3eb0fb926c621
+
+# _isWatered
+Position: $root:1
+Visibility: Shown
+
+# _plantState
+Visibility: Shown
++ [Sirenix.OdinInspector.ReadOnlyAttribute]
+
+# _currentStage
+Visibility: Hidden
+
+# _daysInCurrentStage
+Visibility: Hidden
+
+# _currentStagePrefabInstance
+Visibility: Hidden
+
+# PlantState
+Visibility: Hidden
+
+# Plant(MangroveDataSO)
+Visibility: Hidden
+
+# _data
+Visibility: Shown

@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Item
 {
+    [ManageableData]
     [CreateAssetMenu]
     public class ItemDatabaseSO : ScriptableObject
     {

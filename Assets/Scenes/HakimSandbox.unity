@@ -385,7 +385,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 55
 --- !u!114 &155842278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -474,6 +474,8 @@ MonoBehaviour:
   _externalInventoryPage: {fileID: 1613464561}
   _itemSelector: {fileID: 1151809419}
   _timeText: {fileID: 1471782729}
+  interactionText: {fileID: 0}
+  offset: {x: 0, y: 0.5, z: 0}
 --- !u!1 &267846139
 GameObject:
   m_ObjectHideFlags: 0

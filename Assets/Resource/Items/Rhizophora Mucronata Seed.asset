@@ -9,13 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6154b68740c443e09e522a8db1cbf60c, type: 3}
+  m_Script: {fileID: 11500000, guid: 47ecad84de5d5ec479a7c26d7d17a499, type: 3}
   m_Name: Rhizophora Mucronata Seed
-  m_EditorClassIdentifier: Assembly-CSharp::Item.ItemSeedSO
+  m_EditorClassIdentifier: Assembly-CSharp::Item.ItemMangroveSO
   <IsStackable>k__BackingField: 1
-  ItemID: rhizophora_mucronata_seed
+  ItemID: 
   MaxStackSize: 20
   ItemName: Rhizophora Mucronata Seed
-  ItemSprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
-  ItemDescription: 
+  ItemSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  ItemDescription: Rhizophora Mucronata Seed
+  itemType: 0
   mangroveData: {fileID: 11400000, guid: 6068de848d7a65f4b9f4ac751943cf32, type: 2}
+  MangroveType: 0

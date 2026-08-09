@@ -1,0 +1,6 @@
+OVDF v1.1
+InventoryItem, Assembly-CSharp
+
+# Quantity
++ [Sirenix.OdinInspector.ProgressBarAttribute]
+	Max = 64

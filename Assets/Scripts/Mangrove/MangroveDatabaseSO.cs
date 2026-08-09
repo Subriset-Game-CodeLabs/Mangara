@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Mangrove
 {
+    [ManageableData]
     [CreateAssetMenu]
     public class MangroveDatabaseSO : ScriptableObject
     {

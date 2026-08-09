@@ -1,0 +1,15 @@
+OVDF v1.1
+InventorySO, Assembly-CSharp
+MetaGuid:fea90b4cbc3836c4bbf78c292509db02
+
+# _inventoryItems
+Position: $root:3
++ [Sirenix.OdinInspector.RequiredListLengthAttribute]
+	MinLengthGetter = "Size"
+	MaxLengthGetter = "Size"
+
+# _inventoryID
+Position: $root:0
+
+# _inventoryType
++ [Sirenix.OdinInspector.EnumToggleButtonsAttribute]

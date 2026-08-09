@@ -4,17 +4,22 @@ using System.Linq;
 using Inventory;
 using Item;
 using Save;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
+[ManageableData]
 [CreateAssetMenu]
 public class InventorySO : ScriptableObject
 {
-    [SerializeField] private List<InventoryItem> _inventoryItems;
+    [SerializeField] [TableList] private List<InventoryItem> _inventoryItems;
     [SerializeField] private InventoryType _inventoryType;
 
     [SerializeField] private string _inventoryID;
     public string InventoryID => _inventoryID;
-    [field: SerializeField] public int Size { get; private set; } = 10;
+
+    [OnValueChanged("ResizeList")] 
+    [field: SerializeField] 
+    public int Size { get; private set; } = 10;
 
     public event Action<Dictionary<int, InventoryItem>> OnInventoryUpdated;
 
@@ -25,6 +30,17 @@ public class InventorySO : ScriptableObject
         {
             _inventoryItems.Add(InventoryItem.GetEmptyItem());
         }
+    }
+
+    private void ResizeList()
+    {
+        if (Size < 0) Size = 0;
+
+        while (_inventoryItems.Count < Size)
+            _inventoryItems.Add(new InventoryItem());
+
+        while (_inventoryItems.Count > Size)
+            _inventoryItems.RemoveAt(_inventoryItems.Count - 1);
     }
 
     public int AddItem(ItemBaseSO item, int quantity)

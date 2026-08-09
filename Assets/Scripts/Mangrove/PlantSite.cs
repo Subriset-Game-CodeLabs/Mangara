@@ -71,12 +71,12 @@ public class PlantSite : MonoBehaviour, IInteractable
 
     private void OnItemSelected(ItemBaseSO selectedItem)
     {
-        ItemSeedSO seedItem = selectedItem as ItemSeedSO;
+        ItemMangroveSO mangroveItem = selectedItem as ItemMangroveSO;
 
         int itemIndex = InventoryController.Instance.FindItem(selectedItem);
         InventoryController.Instance.UseItem(itemIndex, 1);
 
-        _mangroveController.Plant(seedItem?.mangroveData);
+        _mangroveController.Plant(mangroveItem?.mangroveData);
         
     }
 }
