@@ -24,13 +24,16 @@ namespace Input
     {
         private InputButton _inventory;
         private InputButton _submit;
+        private InputButton _todo;
         public override bool HasPollable => false;
         public InputButton Inventory => _inventory;
         public InputButton Submit => _submit;
+        public InputButton Todo => _todo;
         public UIActionMap(InputActions action) : base(action)
         {
             _inventory = new InputButton(action.UI.Inventory);
             _submit = new InputButton(action.UI.Submit);
+            _todo = new InputButton(action.UI.Todo);
         }
         public override void OnEnter()
         {
@@ -55,6 +58,7 @@ namespace Input
         private InputButton _next;
         private InputButton[] _hotbarSlots;
         private InputButton _temp;
+        private InputButton _todo;
         public InputValue<Vector2> Movement => _movement;
         public InputButton Interact => _interact;
         public InputButton Inventory => _inventory;
@@ -67,6 +71,7 @@ namespace Input
         public InputButton Hotbar5 => _hotbarSlots[4];
         public InputButton[] HotbarSlots => _hotbarSlots;
         public InputButton Temp => _temp;
+        public InputButton Todo => _todo;
         public override bool HasPollable => true;
 
         public PlayerActionMap(InputActions action) : base(action)
@@ -87,6 +92,7 @@ namespace Input
             
             //temp
             _temp = new InputButton(action.Player.Jump);
+            _todo = new InputButton(action.Player.Todo);
         }
 
 

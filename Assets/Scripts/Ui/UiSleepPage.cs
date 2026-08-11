@@ -48,12 +48,12 @@ namespace Ui
             }
         }
 
-        public void ShowSleepSequence(int currentDay, Action onWakeUpCallback)
+        public void ShowSleepSequence(int currentDay, Action onWakeUpCallback, bool isForcedSleep = false)
         {
             _onWakeUpClicked = onWakeUpCallback;
 
             // Update display text with placeholder Stardew Valley style recap info
-            if (_titleText != null) _titleText.text = "Good Night!";
+            if (_titleText != null) _titleText.text = isForcedSleep ? "You Passed Out!" : "Good Night!";
             if (_dayCountText != null) _dayCountText.text = $"Day {currentDay} Complete";
             if (_statsSummaryText != null)
             {

@@ -21,6 +21,8 @@ namespace Manager
         public UIHotbar Hotbar => _hotbar;
 
         [SerializeField] private TMP_Text _timeText;
+        [SerializeField] private UIDayDisplay _dayDisplay;
+        public UIDayDisplay DayDisplay => _dayDisplay;
 
 
         // From HUD UIManager
@@ -102,7 +104,7 @@ namespace Manager
             _itemSelector.Show(items, onItemSelected);
         }
 
-        public void StartSleepSequence()
+        public void StartSleepSequence(bool isForcedSleep = false)
         {
             if (_sleepPage != null)
             {
@@ -110,7 +112,7 @@ namespace Manager
                 _sleepPage.ShowSleepSequence(GameManager.Instance.DayNumber, () =>
                 {
                     GameManager.Instance.CompleteSleep();
-                });
+                }, isForcedSleep);
             }
             else
             {
@@ -125,13 +127,48 @@ namespace Manager
 
 
 
+        private void Start()
+        {
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.OnNewDay += UpdateDayText;
+                UpdateDayText();
+            }
+        }
+
+        private void OnDestroy()
+        {
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.OnNewDay -= UpdateDayText;
+            }
+        }
+
+        public void UpdateDayText()
+        {
+            if (_dayDisplay != null)
+            {
+                _dayDisplay.UpdateDayText();
+            }
+        }
+
+        public void ToggleTodoList()
+        {
+            if (_progressionUI != null)
+            {
+                _progressionUI.ToggleTodoList();
+            }
+        }
+
         private void Update()
         {
-            ConvertTime(GameManager.Instance.TimeOfDay);
-
+            if (GameManager.Instance != null && _timeText != null)
+            {
+                ConvertTime(GameManager.Instance.TimeOfDay);
+            }
 
             // From HUD UIManager
-            if (seedTarget != null && interactionText.gameObject.activeSelf)
+            if (seedTarget != null && interactionText != null && interactionText.gameObject.activeSelf)
             {
                 Vector2 posisiLayar = Camera.main.WorldToScreenPoint(seedTarget.position + offset);
                 interactionText.transform.position = posisiLayar;
@@ -150,7 +187,10 @@ namespace Manager
             }
             int minutes = interval * 10;
 
-            _timeText.text = $"{hour:00}:{minutes:00}";
+            if (_timeText != null)
+            {
+                _timeText.text = $"{hour:00}:{minutes:00}";
+            }
         }
 
 

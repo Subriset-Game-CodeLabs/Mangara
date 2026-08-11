@@ -18,10 +18,13 @@ namespace Mangrove
 
         private GameObject _currentStagePrefabInstance;
 
+        public event Action OnStatusChanged;
+
         public PlantState PlantState => _plantState;
         
         public string PlantSiteId => _plantSiteID;
         public bool IsWatered => _isWatered;
+        public bool NeedsWater => (_plantState == PlantState.Planted || _plantState == PlantState.Growing) && !_isWatered;
 
         private void Awake()
         {
@@ -50,6 +53,7 @@ namespace Mangrove
             }
 
             _isWatered = false;
+            OnStatusChanged?.Invoke();
         }
 
         private void AdvanceGrowth()
@@ -78,12 +82,14 @@ namespace Mangrove
             if (_plantState == PlantState.Empty || _plantState == PlantState.Dead)
                 return;
             _isWatered = true;
+            OnStatusChanged?.Invoke();
         }
 
         private void TransitionTo(PlantState plantState)
         {
             _plantState = plantState;
             SwapStagePrefab();
+            OnStatusChanged?.Invoke();
         }
 
         public (ItemBaseSO item, int quantity)? Harvest()
@@ -133,6 +139,7 @@ namespace Mangrove
             
             SwapStagePrefab();
             GameManager.Instance.OnNewDay += OnNewDay;
+            OnStatusChanged?.Invoke();
         }
     }
 }

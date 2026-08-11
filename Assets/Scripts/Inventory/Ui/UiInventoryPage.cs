@@ -29,16 +29,38 @@ public class UiInventoryPage : MonoBehaviour
 
     public void InitializeInventoryUI(int inventorySize, InventoryHandler owner)
     {
-        _ownerHandler = owner;
-        for (int i = 0; i < inventorySize; i++)
+        if (_ownerHandler != null && _ownerHandler.InventoryData != null)
         {
-            UiInventoryItem uiItem = Instantiate(_itemPrefab, _contentPanel);
-            _listInventoryItem.Add(uiItem);
-            uiItem.OnItemClicked += HandleItemSelection;
-            uiItem.OnItemBeginDrag += HandleBeginDrag;
-            uiItem.OnItemDroppedOn += HandleSwap;
-            uiItem.OnItemEndDrag += HandleEndDrag;
-            uiItem.OnRightMouseBtnClicked += HandleShowItemActions;
+            _ownerHandler.InventoryData.OnSelectedSlotChanged -= UpdateSelectedSlot;
+        }
+
+        _ownerHandler = owner;
+
+        if (_listInventoryItem.Count == 0)
+        {
+            for (int i = 0; i < inventorySize; i++)
+            {
+                UiInventoryItem uiItem = Instantiate(_itemPrefab, _contentPanel);
+                _listInventoryItem.Add(uiItem);
+                uiItem.OnItemClicked += HandleItemSelection;
+                uiItem.OnItemBeginDrag += HandleBeginDrag;
+                uiItem.OnItemDroppedOn += HandleSwap;
+                uiItem.OnItemEndDrag += HandleEndDrag;
+                uiItem.OnRightMouseBtnClicked += HandleShowItemActions;
+            }
+        }
+
+        if (_ownerHandler != null && _ownerHandler.InventoryData != null)
+        {
+            _ownerHandler.InventoryData.OnSelectedSlotChanged += UpdateSelectedSlot;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (_ownerHandler != null && _ownerHandler.InventoryData != null)
+        {
+            _ownerHandler.InventoryData.OnSelectedSlotChanged -= UpdateSelectedSlot;
         }
     }
 
@@ -93,9 +115,30 @@ public class UiInventoryPage : MonoBehaviour
     private void HandleItemSelection(UiInventoryItem uiInventoryItem)
     {
         int index = _listInventoryItem.IndexOf(uiInventoryItem);
-        if (Keyboard.current.shiftKey.isPressed && index != -1)
+        if (index == -1) return;
+
+        if (Keyboard.current.shiftKey.isPressed)
         {
             OnShiftClick?.Invoke(index, _ownerHandler);
+        }
+        else
+        {
+            if (_ownerHandler != null && _ownerHandler.InventoryData != null)
+            {
+                _ownerHandler.InventoryData.SetSelectedSlot(index);
+            }
+            UpdateSelectedSlot(index);
+        }
+    }
+
+    public void UpdateSelectedSlot(int selectedIndex)
+    {
+        for (int i = 0; i < _listInventoryItem.Count; i++)
+        {
+            if (i == selectedIndex)
+                _listInventoryItem[i].Select();
+            else
+                _listInventoryItem[i].Deselect();
         }
     }
 
@@ -110,6 +153,10 @@ public class UiInventoryPage : MonoBehaviour
     public void Show()
     {
         gameObject.SetActive(true);
+        if (_ownerHandler != null && _ownerHandler.InventoryData != null)
+        {
+            UpdateSelectedSlot(_ownerHandler.InventoryData.SelectedSlotIndex);
+        }
     }
 
     public void Hide()

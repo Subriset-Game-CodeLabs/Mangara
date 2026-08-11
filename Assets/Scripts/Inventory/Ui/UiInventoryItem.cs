@@ -21,12 +21,19 @@ public class UiInventoryItem : MonoBehaviour, IPointerClickHandler, IBeginDragHa
 
     public void Select()
     {
-        _borderImage.enabled = true;
+        if (_borderImage != null)
+        {
+            _borderImage.gameObject.SetActive(true);
+            _borderImage.enabled = true;
+        }
     }
 
     public void Deselect()
     {
-        _borderImage.enabled = false;
+        if (_borderImage != null)
+        {
+            _borderImage.enabled = false;
+        }
     }
     
     public void SetData(Sprite sprite, int quantity)

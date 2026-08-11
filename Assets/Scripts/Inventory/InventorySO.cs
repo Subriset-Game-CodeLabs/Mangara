@@ -31,23 +31,22 @@ public class InventorySO : ScriptableObject
 
     public void SetSelectedSlot(int index)
     {
-        if (HotbarSize <= 0) return;
-        int clamped = (index % HotbarSize + HotbarSize) % HotbarSize;
-        if (SelectedSlotIndex != clamped)
-        {
-            SelectedSlotIndex = clamped;
-            OnSelectedSlotChanged?.Invoke(SelectedSlotIndex);
-        }
+        if (Size <= 0) return;
+        int clamped = (index % Size + Size) % Size;
+        SelectedSlotIndex = clamped;
+        OnSelectedSlotChanged?.Invoke(SelectedSlotIndex);
     }
 
     public void SelectNextSlot()
     {
-        SetSelectedSlot(SelectedSlotIndex + 1);
+        int maxIndex = HotbarSize > 0 ? HotbarSize : Size;
+        SetSelectedSlot((SelectedSlotIndex + 1) % maxIndex);
     }
 
     public void SelectPreviousSlot()
     {
-        SetSelectedSlot(SelectedSlotIndex - 1);
+        int maxIndex = HotbarSize > 0 ? HotbarSize : Size;
+        SetSelectedSlot((SelectedSlotIndex - 1 + maxIndex) % maxIndex);
     }
 
     public InventoryItem GetSelectedItem()

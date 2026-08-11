@@ -54,6 +54,7 @@ namespace Inventory
             _uiInventoryPage.ResetAllitems();
             foreach (var item in inventoryState)
                 _uiInventoryPage.UpdateData(item.Key, item.Value.Item.ItemSprite, item.Value.Quantity);
+            _uiInventoryPage.UpdateSelectedSlot(_inventoryData.SelectedSlotIndex);
         }
 
         public void Show()

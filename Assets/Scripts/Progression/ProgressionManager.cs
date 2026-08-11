@@ -24,6 +24,7 @@ namespace Progression
             ? _goals[_currentGoalIndex] 
             : null;
 
+        public IReadOnlyList<ProgressionGoalSO> Goals => _goals;
         public int CurrentGoalIndex => _currentGoalIndex;
         public int CurrentAmount => _currentAmount;
         public int TargetAmount => CurrentGoal != null ? CurrentGoal.TargetAmount : 0;

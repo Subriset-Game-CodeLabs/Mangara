@@ -16,7 +16,7 @@ public class InventoryController : PersistentSingleton<InventoryController>
 
     private void Start()
     {
-        bool hasSaveFile = SaveManager.Instance.HasSaveFile();
+        bool hasSaveFile = SaveManager.Instance != null && SaveManager.Instance.HasSaveFile();
 
         if (hasSaveFile)
         {
