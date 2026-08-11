@@ -33,12 +33,35 @@ public class InventoryController : PersistentSingleton<InventoryController>
     {
         InputManager.Instance.PlayerInput.Inventory.OnDown += OnInventory;
         InputManager.Instance.UIInput.Inventory.OnDown += OnInventory;
+
+        InputManager.Instance.PlayerInput.Next.OnDown += OnNextSlot;
+        InputManager.Instance.PlayerInput.Previous.OnDown += OnPreviousSlot;
+
+        var hotbarSlots = InputManager.Instance.PlayerInput.HotbarSlots;
+        for (int i = 0; i < hotbarSlots.Length; i++)
+        {
+            int index = i;
+            hotbarSlots[i].OnDown += () => SetSelectedSlot(index);
+        }
     }
 
     private void OnDisable()
     {
         InputManager.Instance.PlayerInput.Inventory.OnDown -= OnInventory;
         InputManager.Instance.UIInput.Inventory.OnDown -= OnInventory;
+
+        InputManager.Instance.PlayerInput.Next.OnDown -= OnNextSlot;
+        InputManager.Instance.PlayerInput.Previous.OnDown -= OnPreviousSlot;
+    }
+
+    private void OnNextSlot()
+    {
+        SelectNextSlot();
+    }
+
+    private void OnPreviousSlot()
+    {
+        SelectPreviousSlot();
     }
 
     private void OnInventory()
@@ -66,5 +89,31 @@ public class InventoryController : PersistentSingleton<InventoryController>
     {
         return acceptedItems.Select(item => _inventoryHandler.InventoryData.FindItemIndex(item))
             .Where(index => index != -1).Select(index => _inventoryHandler.InventoryData.GetItemAt(index)).ToList();
+    }
+
+    public InventoryItem GetSelectedItem()
+    {
+        return _inventoryHandler.InventoryData.GetSelectedItem();
+    }
+
+    public void SelectNextSlot()
+    {
+        _inventoryHandler.InventoryData.SelectNextSlot();
+    }
+
+    public void SelectPreviousSlot()
+    {
+        _inventoryHandler.InventoryData.SelectPreviousSlot();
+    }
+
+    public void SetSelectedSlot(int index)
+    {
+        _inventoryHandler.InventoryData.SetSelectedSlot(index);
+    }
+
+    public void UseSelectedItem(int quantity)
+    {
+        int activeIndex = _inventoryHandler.InventoryData.SelectedSlotIndex;
+        _inventoryHandler.InventoryData.RemoveItem(activeIndex, quantity);
     }
 }

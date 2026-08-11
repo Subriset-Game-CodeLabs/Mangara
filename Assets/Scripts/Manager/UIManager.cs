@@ -5,6 +5,8 @@ using Inventory;
 using TMPro;
 using UnityEngine;
 
+using Ui;
+
 namespace Manager
 {
     public class UIManager : PersistentSingleton<UIManager>
@@ -12,6 +14,11 @@ namespace Manager
         [SerializeField] private UiInventoryPage _playerInventoryPage;
         [SerializeField] private UiInventoryPage _externalInventoryPage;
         [SerializeField] private UIItemSelector _itemSelector;
+        [SerializeField] private UiSleepPage _sleepPage;
+        [SerializeField] private ProgressionUI _progressionUI;
+        [SerializeField] private UIHotbar _hotbar;
+
+        public UIHotbar Hotbar => _hotbar;
 
         [SerializeField] private TMP_Text _timeText;
 
@@ -93,6 +100,27 @@ namespace Manager
             Time.timeScale = 0;
             InputManager.Instance.UIMode();
             _itemSelector.Show(items, onItemSelected);
+        }
+
+        public void StartSleepSequence()
+        {
+            if (_sleepPage != null)
+            {
+                InputManager.Instance.UIMode();
+                _sleepPage.ShowSleepSequence(GameManager.Instance.DayNumber, () =>
+                {
+                    GameManager.Instance.CompleteSleep();
+                });
+            }
+            else
+            {
+                GameManager.Instance.CompleteSleep();
+            }
+        }
+
+        public void OnSleepSequenceFinished()
+        {
+            InputManager.Instance.PlayerMode();
         }
 
 

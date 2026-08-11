@@ -1,8 +1,11 @@
 using System.Collections.Generic;
 using System.IO;
 using Item;
+using Manager;
 using Mangrove;
 using Newtonsoft.Json;
+using Progression;
+using RandomEvent;
 using UnityEngine;
 
 namespace Save
@@ -24,6 +27,16 @@ namespace Save
             // Mangrove
             var allMangroves = new List<MangroveSaveData>();
 
+            // Random Events
+            var allRandomEvents = RandomEventManager.Instance != null 
+                ? RandomEventManager.Instance.GetSaveData() 
+                : new List<EventSpawnSaveData>();
+
+            // Progression
+            var progressionData = ProgressionManager.Instance != null 
+                ? ProgressionManager.Instance.GetSaveData() 
+                : null;
+
             foreach (InventorySO inventory in _inventories)
             {
                 allInventories.Add(inventory.GetSaveData());
@@ -38,10 +51,15 @@ namespace Save
                 }
             }
 
+            int dayCount = GameManager.Instance != null ? GameManager.Instance.DayNumber : 1;
+
             var root = new
             {
+                dayCount = dayCount,
                 inventories = allInventories,
-                plantSites = allMangroves
+                plantSites = allMangroves,
+                randomEvents = allRandomEvents,
+                progression = progressionData
             };
 
             string json = JsonConvert.SerializeObject(root, Formatting.Indented);
@@ -62,32 +80,56 @@ namespace Save
 
             var root = JsonConvert.DeserializeObject<SaveRoot>(json);
 
-            foreach (InventorySaveData inventoryData in root.inventories)
+            if (root != null)
             {
-                // Find the InventorySO asset that matches this saved ID
-                InventorySO match = _inventories
-                    .Find(inv => inv.InventoryID == inventoryData.InventoryID);
-
-                if (match == null)
+                if (GameManager.Instance != null && root.dayCount > 0)
                 {
-                    Debug.LogWarning($"No InventorySO found with ID: {inventoryData.InventoryID}");
-                    continue;
+                    GameManager.Instance.SetDayNumber(root.dayCount);
                 }
 
-                match.LoadFromSaveData(inventoryData, _itemDatabase);
-            }
-
-            foreach (MangroveSaveData plantSite in root.plantSites)
-            {
-                MangroveController match = _plantSites.Find(sites => sites.PlantSiteId == plantSite.PlantSiteID);
-
-                if (match == null)
+                if (root.inventories != null)
                 {
-                    Debug.LogWarning($"No MangroveController found with ID: {plantSite.PlantSiteID}");
-                    continue;
+                    foreach (InventorySaveData inventoryData in root.inventories)
+                    {
+                        // Find the InventorySO asset that matches this saved ID
+                        InventorySO match = _inventories
+                            .Find(inv => inv.InventoryID == inventoryData.InventoryID);
+
+                        if (match == null)
+                        {
+                            Debug.LogWarning($"No InventorySO found with ID: {inventoryData.InventoryID}");
+                            continue;
+                        }
+
+                        match.LoadFromSaveData(inventoryData, _itemDatabase);
+                    }
                 }
 
-                match.LoadFromSaveData(plantSite, _mangroveDatabase);
+                if (root.plantSites != null)
+                {
+                    foreach (MangroveSaveData plantSite in root.plantSites)
+                    {
+                        MangroveController match = _plantSites.Find(sites => sites.PlantSiteId == plantSite.PlantSiteID);
+
+                        if (match == null)
+                        {
+                            Debug.LogWarning($"No MangroveController found with ID: {plantSite.PlantSiteID}");
+                            continue;
+                        }
+
+                        match.LoadFromSaveData(plantSite, _mangroveDatabase);
+                    }
+                }
+
+                if (root.randomEvents != null && RandomEventManager.Instance != null)
+                {
+                    RandomEventManager.Instance.LoadFromSaveData(root.randomEvents, _itemDatabase);
+                }
+
+                if (root.progression != null && ProgressionManager.Instance != null)
+                {
+                    ProgressionManager.Instance.LoadFromSaveData(root.progression);
+                }
             }
 
             Debug.Log("Game loaded!");
@@ -96,9 +138,13 @@ namespace Save
         [System.Serializable]
         private class SaveRoot
         {
+            public int dayCount;
             public List<InventorySaveData> inventories;
             public List<MangroveSaveData> plantSites;
+            public List<EventSpawnSaveData> randomEvents;
+            public ProgressionSaveData progression;
         }
+
 
         public bool HasSaveFile() => File.Exists(SavePath);
 

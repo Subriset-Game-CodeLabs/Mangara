@@ -22,9 +22,29 @@ namespace Player
             InputManager.Instance.UIInput.Submit.OnDown -= OnInteract;
         }
 
+        private void Update()
+        {
+            if (_currentInteractable != null && _currentInteractable is UnityEngine.Object obj && obj == null)
+            {
+                IInteractable lost = _currentInteractable;
+                _currentInteractable = null;
+                OnInteractionLost?.Invoke(lost);
+            }
+        }
+
         private void OnInteract()
         {
-            _currentInteractable?.Interact();
+            if (_currentInteractable != null)
+            {
+                IInteractable interactable = _currentInteractable;
+                interactable.Interact();
+
+                if (_currentInteractable is UnityEngine.Object obj && obj == null)
+                {
+                    _currentInteractable = null;
+                    OnInteractionLost?.Invoke(interactable);
+                }
+            }
         }
         
         private void OnTriggerEnter(Collider other)

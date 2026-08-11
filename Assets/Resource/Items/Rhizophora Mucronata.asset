@@ -18,6 +18,7 @@ MonoBehaviour:
   ItemName: Rhizophora Mucronata
   ItemSprite: {fileID: 21300000, guid: 305b34b4e7e17fe4bb6a302c02d29cf0, type: 3}
   ItemDescription: Rhizophora Mucronata
+  ItemPrefab: {fileID: 3630250156714186656, guid: 6c17da72218a4b448ac66289e7442534, type: 3}
   itemType: 1
   mangroveData: {fileID: 11400000, guid: 6068de848d7a65f4b9f4ac751943cf32, type: 2}
   MangroveType: 0

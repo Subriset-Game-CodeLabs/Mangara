@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Item;
 using Manager;
+using Progression;
 using UnityEngine;
 
 public class MangroveSubmitStation : MonoBehaviour, IInteractable
@@ -9,30 +10,47 @@ public class MangroveSubmitStation : MonoBehaviour, IInteractable
 
     public string GetInteractText()
     {
-        return "Submit Mangrove";
+        InventoryItem selectedSlotItem = InventoryController.Instance.GetSelectedItem();
+        if (!selectedSlotItem.IsEmpty && IsAcceptedItem(selectedSlotItem.Item))
+        {
+            return $"Submit {selectedSlotItem.Item.ItemName}";
+        }
+        else if (InventoryController.Instance.GetUsableItems(_acceptedItems).Count > 0)
+        {
+            return "Equip Mangrove to Submit";
+        }
+        return "Requires Mangrove to Submit";
     }
 
     public void Interact()
     {
-        List<InventoryItem> usableItems = InventoryController.Instance.GetUsableItems(_acceptedItems);
-
-        if (usableItems.Count == 0)
+        InventoryItem selectedSlotItem = InventoryController.Instance.GetSelectedItem();
+        if (selectedSlotItem.IsEmpty || !IsAcceptedItem(selectedSlotItem.Item))
         {
             return;
         }
 
-        UIManager.Instance.ShowItemSelector(usableItems, OnItemSelected);
+        ItemBaseSO itemToSubmit = selectedSlotItem.Item;
+        InventoryController.Instance.UseSelectedItem(1);
+
+        Debug.Log("Submitted " + itemToSubmit.ItemName);
+
+        if (ProgressionManager.Instance != null)
+        {
+            ProgressionManager.Instance.SubmitItem(itemToSubmit, 1);
+        }
     }
 
-    private void OnItemSelected(ItemBaseSO selectedItem)
+    private bool IsAcceptedItem(ItemBaseSO item)
     {
-        ItemMangroveSO mangroveItem = selectedItem as ItemMangroveSO;
-        if (mangroveItem == null || mangroveItem.itemType != ItemType.Mangrove) return;
-
-        int itemIndex = InventoryController.Instance.FindItem(selectedItem);
-        InventoryController.Instance.UseItem(itemIndex, 1);
-
-        Debug.Log("Submitted " + selectedItem.ItemName);
+        if (item == null) return false;
+        if (_acceptedItems != null && _acceptedItems.Count > 0)
+        {
+            return _acceptedItems.Contains(item);
+        }
+        ItemMangroveSO mangroveItem = item as ItemMangroveSO;
+        return mangroveItem != null && mangroveItem.itemType == ItemType.Mangrove;
     }
 
 }
+

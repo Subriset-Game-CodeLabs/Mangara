@@ -21,7 +21,43 @@ public class InventorySO : ScriptableObject
     [field: SerializeField] 
     public int Size { get; private set; } = 10;
 
+    [field: SerializeField]
+    public int HotbarSize { get; private set; } = 5;
+
+    public int SelectedSlotIndex { get; private set; } = 0;
+
     public event Action<Dictionary<int, InventoryItem>> OnInventoryUpdated;
+    public event Action<int> OnSelectedSlotChanged;
+
+    public void SetSelectedSlot(int index)
+    {
+        if (HotbarSize <= 0) return;
+        int clamped = (index % HotbarSize + HotbarSize) % HotbarSize;
+        if (SelectedSlotIndex != clamped)
+        {
+            SelectedSlotIndex = clamped;
+            OnSelectedSlotChanged?.Invoke(SelectedSlotIndex);
+        }
+    }
+
+    public void SelectNextSlot()
+    {
+        SetSelectedSlot(SelectedSlotIndex + 1);
+    }
+
+    public void SelectPreviousSlot()
+    {
+        SetSelectedSlot(SelectedSlotIndex - 1);
+    }
+
+    public InventoryItem GetSelectedItem()
+    {
+        if (SelectedSlotIndex >= 0 && SelectedSlotIndex < _inventoryItems.Count)
+        {
+            return _inventoryItems[SelectedSlotIndex];
+        }
+        return InventoryItem.GetEmptyItem();
+    }
 
     public void Initialize()
     {

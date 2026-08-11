@@ -15,7 +15,16 @@ public class PlantSite : MonoBehaviour, IInteractable
         {
             case PlantState.Empty:
             {
-                return "Choose seed to plant";
+                InventoryItem selectedSlotItem = InventoryController.Instance.GetSelectedItem();
+                if (!selectedSlotItem.IsEmpty && IsAcceptedSeed(selectedSlotItem.Item))
+                {
+                    return $"Plant {selectedSlotItem.Item.ItemName}";
+                }
+                else if (InventoryController.Instance.GetUsableItems(_acceptedItems).Count > 0)
+                {
+                    return "Equip Seed to Plant";
+                }
+                return "Requires Seed";
             }
             case PlantState.Planted:
             case PlantState.Growing:
@@ -40,14 +49,15 @@ public class PlantSite : MonoBehaviour, IInteractable
         {
             case PlantState.Empty:
             {
-                List<InventoryItem> usableItems = InventoryController.Instance.GetUsableItems(_acceptedItems);
-
-                if (usableItems.Count == 0)
+                InventoryItem selectedSlotItem = InventoryController.Instance.GetSelectedItem();
+                if (selectedSlotItem.IsEmpty || !IsAcceptedSeed(selectedSlotItem.Item))
                 {
                     return;
                 }
 
-                UIManager.Instance.ShowItemSelector(usableItems, OnItemSelected);
+                ItemMangroveSO mangroveItem = selectedSlotItem.Item as ItemMangroveSO;
+                InventoryController.Instance.UseSelectedItem(1);
+                _mangroveController.Plant(mangroveItem?.mangroveData);
                 break;
             }
             case PlantState.Planted:
@@ -66,17 +76,15 @@ public class PlantSite : MonoBehaviour, IInteractable
                 break;
             }
         }
-        
     }
 
-    private void OnItemSelected(ItemBaseSO selectedItem)
+    private bool IsAcceptedSeed(ItemBaseSO item)
     {
-        ItemMangroveSO mangroveItem = selectedItem as ItemMangroveSO;
-
-        int itemIndex = InventoryController.Instance.FindItem(selectedItem);
-        InventoryController.Instance.UseItem(itemIndex, 1);
-
-        _mangroveController.Plant(mangroveItem?.mangroveData);
-        
+        if (item == null) return false;
+        if (_acceptedItems != null && _acceptedItems.Count > 0)
+        {
+            return _acceptedItems.Contains(item);
+        }
+        return item is ItemMangroveSO;
     }
 }

@@ -51,10 +51,21 @@ namespace Input
         private InputValue<Vector2> _movement;
         private InputButton _interact;
         private InputButton _inventory;
+        private InputButton _previous;
+        private InputButton _next;
+        private InputButton[] _hotbarSlots;
         private InputButton _temp;
         public InputValue<Vector2> Movement => _movement;
         public InputButton Interact => _interact;
         public InputButton Inventory => _inventory;
+        public InputButton Previous => _previous;
+        public InputButton Next => _next;
+        public InputButton Hotbar1 => _hotbarSlots[0];
+        public InputButton Hotbar2 => _hotbarSlots[1];
+        public InputButton Hotbar3 => _hotbarSlots[2];
+        public InputButton Hotbar4 => _hotbarSlots[3];
+        public InputButton Hotbar5 => _hotbarSlots[4];
+        public InputButton[] HotbarSlots => _hotbarSlots;
         public InputButton Temp => _temp;
         public override bool HasPollable => true;
 
@@ -63,6 +74,16 @@ namespace Input
             _movement = new InputValue<Vector2>(action.Player.Move);
             _interact = new InputButton(action.Player.Interact);
             _inventory = new InputButton(action.Player.Inventory);
+            _previous = new InputButton(action.Player.Previous);
+            _next = new InputButton(action.Player.Next);
+            _hotbarSlots = new InputButton[]
+            {
+                new InputButton(action.Player.Hotbar1),
+                new InputButton(action.Player.Hotbar2),
+                new InputButton(action.Player.Hotbar3),
+                new InputButton(action.Player.Hotbar4),
+                new InputButton(action.Player.Hotbar5),
+            };
             
             //temp
             _temp = new InputButton(action.Player.Jump);

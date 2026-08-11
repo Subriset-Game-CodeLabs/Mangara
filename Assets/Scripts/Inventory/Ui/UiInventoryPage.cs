@@ -92,10 +92,9 @@ public class UiInventoryPage : MonoBehaviour
 
     private void HandleItemSelection(UiInventoryItem uiInventoryItem)
     {
-        uiInventoryItem.Select();
-        if (Keyboard.current.shiftKey.isPressed)
+        int index = _listInventoryItem.IndexOf(uiInventoryItem);
+        if (Keyboard.current.shiftKey.isPressed && index != -1)
         {
-            int index = _listInventoryItem.IndexOf(uiInventoryItem);
             OnShiftClick?.Invoke(index, _ownerHandler);
         }
     }

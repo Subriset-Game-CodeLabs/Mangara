@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c0becc8a9d4d9c4fb05c26a477d3a93, type: 3}
+  m_Name: RandomEventDatabbase
+  m_EditorClassIdentifier: Assembly-CSharp::RandomEvent.RandomEventDatabaseSO
+  Events:
+  - {fileID: 11400000, guid: 009b048ef5fd3004d98fd74d2578ab27, type: 2}

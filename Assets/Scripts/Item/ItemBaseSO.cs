@@ -13,4 +13,5 @@ public class ItemBaseSO : ScriptableObject
     public string ItemName;
     public Sprite ItemSprite;
     public string ItemDescription;
+    public GameObject ItemPrefab;
 }
