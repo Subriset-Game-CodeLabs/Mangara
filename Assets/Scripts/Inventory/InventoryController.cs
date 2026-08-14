@@ -7,7 +7,7 @@ using Manager;
 using Save;
 using UnityEngine;
 
-public class InventoryController : PersistentSingleton<InventoryController>
+public class InventoryController : Singleton<InventoryController>
 {
     [SerializeField] private InventoryHandler _inventoryHandler;
     [SerializeField] private List<InventoryItem> _initialItems;

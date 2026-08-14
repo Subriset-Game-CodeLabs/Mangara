@@ -3,6 +3,9 @@ public class FiniteStateMachine<T> where T : IState
     private T _currentState;
     private T _previousState;
 
+    public T CurrentState => _currentState;
+    public T PreviousState => _previousState;
+
     public FiniteStateMachine(T entry)
     {
         _currentState = entry;

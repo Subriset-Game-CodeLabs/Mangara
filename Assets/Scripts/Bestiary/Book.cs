@@ -97,7 +97,7 @@ public class Book : MonoBehaviour
         {
             rotate = true;
             Quaternion targetRotation = Quaternion.Euler(0, angle, 0);
-            value += Time.deltaTime * pageSpeed;
+            value += Time.unscaledDeltaTime * pageSpeed;
             pages[index].rotation = Quaternion.Slerp(pages[index].rotation, targetRotation, value);
             float angle1 = Quaternion.Angle(pages[index].rotation, targetRotation);
 

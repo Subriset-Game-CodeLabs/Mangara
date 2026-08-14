@@ -15,7 +15,7 @@ MonoBehaviour:
   _goalID: goal1
   _goalTitle: Mangrove Planting
   _goalDescription: Submit Mangroves to Station
-  _targetAmount: 10
+  _targetAmount: 2
   _requiredItem: {fileID: 11400000, guid: 4c6c46710d96fcb43ba7c09ed01a470e, type: 2}
   OnGoalCompleted:
     m_PersistentCalls:

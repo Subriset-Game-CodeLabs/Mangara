@@ -13,12 +13,14 @@ MonoBehaviour:
   m_Name: Rhizophora Mucronata Seed
   m_EditorClassIdentifier: Assembly-CSharp::Item.ItemMangroveSO
   <IsStackable>k__BackingField: 1
-  ItemID: rizi_seed
+  ItemID: rhizophora_mucronata_seed
   MaxStackSize: 20
   ItemName: Rhizophora Mucronata Seed
   ItemSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   ItemDescription: Rhizophora Mucronata Seed
   ItemPrefab: {fileID: 8451677909027619001, guid: 523f611d3aa132842a53dffe4fef270c, type: 3}
+  <IsTrash>k__BackingField: 0
   itemType: 0
   mangroveData: {fileID: 11400000, guid: 6068de848d7a65f4b9f4ac751943cf32, type: 2}
   MangroveType: 0
+  _permanentPlantPrefab: {fileID: 0}

@@ -20,5 +20,7 @@ namespace RandomEvent
         public List<SpawnEntry> SpawnEntries = new List<SpawnEntry>();
         public int MinSpawnCount = 1;
         public int MaxSpawnCount = 1;
+        [Tooltip("Max active items spawned by this event allowed in the world at once (0 = unlimited).")]
+        public int MaxActiveCap = 0;
     }
 }

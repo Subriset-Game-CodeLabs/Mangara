@@ -149,6 +149,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Bestiary",
+                    "type": "Button",
+                    "id": "404e30c9-3fba-4c10-a75d-3eb8591d7475",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -160,6 +169,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Todo",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "34b06d8c-026f-495b-90a7-9d7b83415250",
+                    "path": "<Keyboard>/j",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Bestiary",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -659,6 +679,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Bestiary",
+                    "type": "Button",
+                    "id": "404e30c9-3fba-4c10-a75d-3eb8591d7476",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Submit",
                     "type": "Button",
                     "id": "7607c7b6-cd76-4816-beef-bd0341cfe950",
@@ -1024,6 +1053,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Todo",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "34b06d8c-026f-495b-90a7-9d7b83415251",
+                    "path": "<Keyboard>/j",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Bestiary",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

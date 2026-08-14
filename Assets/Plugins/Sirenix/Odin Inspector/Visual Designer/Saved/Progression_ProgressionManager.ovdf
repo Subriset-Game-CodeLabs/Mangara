@@ -1,0 +1,12 @@
+OVDF v1.1
+Progression.ProgressionManager, Assembly-CSharp
+MetaGuid:c60e5179454d1d14ebe63ef4ea63dc50
+
+# _currentAmount
+Visibility: Hidden
+
+# <EcosystemHealthIndex>k__BackingField
+Visibility: Shown
+
+# _trashCleanedCount
+Visibility: Shown

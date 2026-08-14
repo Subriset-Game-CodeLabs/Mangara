@@ -1,6 +1,7 @@
 using UnityEngine;
 
-
+[ManageableData]
+[CreateAssetMenu(menuName = "Items/Base Item")]
 public class ItemBaseSO : ScriptableObject
 {
     [field: SerializeField]
@@ -14,4 +15,7 @@ public class ItemBaseSO : ScriptableObject
     public Sprite ItemSprite;
     public string ItemDescription;
     public GameObject ItemPrefab;
+
+    [field: SerializeField]
+    public bool IsTrash { get; set; }
 }

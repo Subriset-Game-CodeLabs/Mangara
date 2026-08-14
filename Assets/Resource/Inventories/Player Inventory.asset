@@ -14,17 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InventorySO
   _inventoryItems:
   - Quantity: 5
+    Item: {fileID: 11400000, guid: f8ab18e18ef454040a1f25bf486d8e98, type: 2}
+  - Quantity: 1
+    Item: {fileID: 11400000, guid: 4c6c46710d96fcb43ba7c09ed01a470e, type: 2}
+  - Quantity: 1
     Item: {fileID: 11400000, guid: 4c6c46710d96fcb43ba7c09ed01a470e, type: 2}
   - Quantity: 0
     Item: {fileID: 0}
-  - Quantity: 0
-    Item: {fileID: 0}
-  - Quantity: 0
-    Item: {fileID: 0}
-  - Quantity: 0
-    Item: {fileID: 0}
-  - Quantity: 0
-    Item: {fileID: 0}
+  - Quantity: 1
+    Item: {fileID: 11400000, guid: 4c6c46710d96fcb43ba7c09ed01a470e, type: 2}
+  - Quantity: 1
+    Item: {fileID: 11400000, guid: 4c6c46710d96fcb43ba7c09ed01a470e, type: 2}
   - Quantity: 0
     Item: {fileID: 0}
   - Quantity: 0

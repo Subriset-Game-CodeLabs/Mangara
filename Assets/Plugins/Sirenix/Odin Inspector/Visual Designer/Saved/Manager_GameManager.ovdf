@@ -1,0 +1,8 @@
+OVDF v1.1
+Manager.GameManager, Assembly-CSharp
+MetaGuid:efd3f822ab7144f3a1489fa7e044ab42
+
+# _dayDurationInSeconds
++ [Sirenix.OdinInspector.UnitAttribute]
+	Base = Second
+	Display = Minute

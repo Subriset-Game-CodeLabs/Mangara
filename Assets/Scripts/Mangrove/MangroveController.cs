@@ -8,6 +8,7 @@ namespace Mangrove
     public class MangroveController : MonoBehaviour
     {
         [SerializeField] private string _plantSiteID;
+        [SerializeField] private float _spawnYOffset = 0f;
         private MangroveDataSO _data;
 
         private PlantState _plantState;
@@ -23,6 +24,7 @@ namespace Mangrove
         public PlantState PlantState => _plantState;
         
         public string PlantSiteId => _plantSiteID;
+        public float SpawnYOffset => _spawnYOffset;
         public bool IsWatered => _isWatered;
         public bool NeedsWater => (_plantState == PlantState.Planted || _plantState == PlantState.Growing) && !_isWatered;
 
@@ -109,7 +111,8 @@ namespace Mangrove
             if (_currentStagePrefabInstance != null)
                 Destroy(_currentStagePrefabInstance);
 
-            _currentStagePrefabInstance = Instantiate(_data.StageObjects[_currentStage], transform.position,
+            Vector3 spawnPosition = transform.position + new Vector3(0f, _spawnYOffset, 0f);
+            _currentStagePrefabInstance = Instantiate(_data.StageObjects[_currentStage], spawnPosition,
                 Quaternion.identity, transform);
         }
 

@@ -36,7 +36,7 @@ public struct MangroveData
     public Sprite mangroveImage;
 }
 
-public class BestiaryManager : PersistentSingleton<BestiaryManager>
+public class BestiaryManager : Singleton<BestiaryManager>
 {
     [SerializeField] private List<MangroveType> unlockedMangroves = new List<MangroveType>();
 
@@ -112,6 +112,21 @@ public class BestiaryManager : PersistentSingleton<BestiaryManager>
 
         Debug.LogWarning($"Mangrove data not found for type: {type}.");
         return default;
+    }
+
+    public Save.BestiarySaveData GetSaveData()
+    {
+        return new Save.BestiarySaveData
+        {
+            unlockedMangroves = new List<MangroveType>(unlockedMangroves)
+        };
+    }
+
+    public void LoadFromSaveData(Save.BestiarySaveData data)
+    {
+        if (data == null || data.unlockedMangroves == null) return;
+        unlockedMangroves = new List<MangroveType>(data.unlockedMangroves);
+        Debug.Log($"[BestiaryManager] Loaded {unlockedMangroves.Count} unlocked bestiary entries.");
     }
 
 #if UNITY_EDITOR

@@ -71,5 +71,20 @@ namespace Inventory
         {
             _inventoryData.AddItem(item, quantity);
         }
+
+        private void OnDestroy()
+        {
+            if (_inventoryData != null)
+            {
+                _inventoryData.OnInventoryUpdated -= UpdateInventoryUI;
+            }
+
+            if (_uiInventoryPage != null)
+            {
+                _uiInventoryPage.OnStartDragging -= HandleDragging;
+                _uiInventoryPage.OnSwapItems -= HandleSwapItems;
+                _uiInventoryPage.OnShiftClick -= HandleTransferItems;
+            }
+        }
     }
 }

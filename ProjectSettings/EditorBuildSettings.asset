@@ -8,5 +8,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/HakimSandbox.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/MVP.unity
+    guid: 7bddbf8d910238d4abb06017894a576b
+  - enabled: 1
+    path: Assets/Scenes/Start.unity
+    guid: 3ffb847f69d2b0f43805e3f46acf7a03
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

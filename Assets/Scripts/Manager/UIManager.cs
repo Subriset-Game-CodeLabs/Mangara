@@ -9,7 +9,7 @@ using Ui;
 
 namespace Manager
 {
-    public class UIManager : PersistentSingleton<UIManager>
+    public class UIManager : Singleton<UIManager>
     {
         [SerializeField] private UiInventoryPage _playerInventoryPage;
         [SerializeField] private UiInventoryPage _externalInventoryPage;
@@ -17,8 +17,10 @@ namespace Manager
         [SerializeField] private UiSleepPage _sleepPage;
         [SerializeField] private ProgressionUI _progressionUI;
         [SerializeField] private UIHotbar _hotbar;
+        [SerializeField] private PauseMenuUI _pauseMenuUI;
 
         public UIHotbar Hotbar => _hotbar;
+        public PauseMenuUI PauseMenuUI => _pauseMenuUI;
 
         [SerializeField] private TMP_Text _timeText;
         [SerializeField] private UIDayDisplay _dayDisplay;
@@ -136,8 +138,9 @@ namespace Manager
             }
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             if (GameManager.Instance != null)
             {
                 GameManager.Instance.OnNewDay -= UpdateDayText;
@@ -157,6 +160,14 @@ namespace Manager
             if (_progressionUI != null)
             {
                 _progressionUI.ToggleTodoList();
+            }
+        }
+
+        public void TogglePause()
+        {
+            if (_pauseMenuUI != null)
+            {
+                _pauseMenuUI.TogglePause();
             }
         }
 

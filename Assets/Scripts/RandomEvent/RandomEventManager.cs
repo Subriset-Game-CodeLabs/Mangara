@@ -6,12 +6,13 @@ using UnityEngine;
 
 namespace RandomEvent
 {
-    public class RandomEventManager : PersistentSingleton<RandomEventManager>
+    public class RandomEventManager : Singleton<RandomEventManager>
     {
         [System.Serializable]
         public class SpawnedItemRecord
         {
             public string ZoneID;
+            public string EventID;
             public ItemObject GameObjectInstance;
             public ItemBaseSO ItemData;
             public int Quantity;
@@ -21,6 +22,7 @@ namespace RandomEvent
         [SerializeField] private List<EventSpawnZone> _spawnZones = new List<EventSpawnZone>();
         [SerializeField] private GameObject _itemObjectPrefab;
         [SerializeField] private ItemDatabaseSO _itemDatabase;
+        [SerializeField] private bool _spawnOnFirstLaunch = true;
 
         private readonly List<SpawnedItemRecord> _activeSpawnedItems = new List<SpawnedItemRecord>();
 
@@ -35,6 +37,10 @@ namespace RandomEvent
         private void Start()
         {
             SubscribeToGameManager();
+            if (_spawnOnFirstLaunch && _activeSpawnedItems.Count == 0)
+            {
+                EvaluateAndSpawnEvents();
+            }
         }
 
         private void OnEnable()
@@ -78,6 +84,47 @@ namespace RandomEvent
             EvaluateAndSpawnEvents();
         }
 
+        public int GetActiveTrashCount()
+        {
+            int count = 0;
+            foreach (var record in _activeSpawnedItems)
+            {
+                if (record != null && record.GameObjectInstance != null && record.ItemData != null && record.ItemData.IsTrash)
+                {
+                    count += record.Quantity;
+                }
+            }
+            return count;
+        }
+
+        public int GetActiveItemCountForEvent(RandomEventSO eventSO)
+        {
+            if (eventSO == null) return 0;
+            int count = 0;
+            foreach (var record in _activeSpawnedItems)
+            {
+                if (record != null && record.GameObjectInstance != null)
+                {
+                    if (!string.IsNullOrEmpty(record.EventID) && !string.IsNullOrEmpty(eventSO.EventID) && record.EventID == eventSO.EventID)
+                    {
+                        count += record.Quantity;
+                    }
+                    else if (record.ItemData != null && eventSO.SpawnEntries != null)
+                    {
+                        foreach (var entry in eventSO.SpawnEntries)
+                        {
+                            if (entry.Item != null && entry.Item.ItemID == record.ItemData.ItemID)
+                            {
+                                count += record.Quantity;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            return count;
+        }
+
         public void DespawnAllActiveItems()
         {
             for (int i = _activeSpawnedItems.Count - 1; i >= 0; i--)
@@ -90,11 +137,15 @@ namespace RandomEvent
                 }
             }
             _activeSpawnedItems.Clear();
+            Progression.ProgressionManager.Instance?.RecalculateEcosystemHealth();
         }
 
-        public void EvaluateAndSpawnEvents()
+        public void EvaluateAndSpawnEvents(bool clearExisting = false)
         {
-            DespawnAllActiveItems();
+            if (clearExisting)
+            {
+                DespawnAllActiveItems();
+            }
             RefreshZonesIfEmpty();
 
             if (_spawnZones == null || _spawnZones.Count == 0)
@@ -103,17 +154,41 @@ namespace RandomEvent
                 return;
             }
 
+            int milestoneIndex = Progression.ProgressionManager.Instance != null 
+                ? Progression.ProgressionManager.Instance.UnlockedMilestoneIndex 
+                : 0;
+            float trashMultiplier = Mathf.Clamp01(1.0f - (milestoneIndex * 0.25f));
+
             foreach (var zone in _spawnZones)
             {
                 if (zone == null || zone.AssignedEvent == null) continue;
 
                 RandomEventSO eventSO = zone.AssignedEvent;
+
+                if (eventSO.MaxActiveCap > 0)
+                {
+                    int currentActive = GetActiveItemCountForEvent(eventSO);
+                    if (currentActive >= eventSO.MaxActiveCap)
+                    {
+                        Debug.Log($"[RandomEventManager] Event '{eventSO.EventName}' has reached max active cap ({currentActive}/{eventSO.MaxActiveCap}). Skipping spawn.");
+                        continue;
+                    }
+                }
+
                 float roll = Random.value;
 
                 if (roll <= eventSO.Probability)
                 {
                     int count = Random.Range(eventSO.MinSpawnCount, eventSO.MaxSpawnCount + 1);
                     if (count <= 0 || eventSO.SpawnEntries == null || eventSO.SpawnEntries.Count == 0) continue;
+
+                    if (eventSO.MaxActiveCap > 0)
+                    {
+                        int currentActive = GetActiveItemCountForEvent(eventSO);
+                        int remainingAllowed = eventSO.MaxActiveCap - currentActive;
+                        if (remainingAllowed <= 0) continue;
+                        count = Mathf.Min(count, remainingAllowed);
+                    }
 
                     List<Vector3> spawnPositions = zone.GetRandomSpawnPositions(count);
 
@@ -122,12 +197,19 @@ namespace RandomEvent
                         SpawnEntry selectedEntry = SelectWeightedItem(eventSO.SpawnEntries);
                         if (selectedEntry.Item == null) continue;
 
-                        SpawnItem(zone.ZoneID, selectedEntry.Item, selectedEntry.Quantity, pos);
+                        if (selectedEntry.Item.IsTrash && trashMultiplier <= 0.01f)
+                        {
+                            continue;
+                        }
+
+                        SpawnItem(zone.ZoneID, eventSO.EventID, selectedEntry.Item, selectedEntry.Quantity, pos);
                     }
 
                     Debug.Log($"[RandomEventManager] Event '{eventSO.EventName}' triggered in Zone '{zone.ZoneID}'! Spawned {spawnPositions.Count} items.");
                 }
             }
+
+            Progression.ProgressionManager.Instance?.RecalculateEcosystemHealth();
         }
 
         private SpawnEntry SelectWeightedItem(List<SpawnEntry> entries)
@@ -160,7 +242,7 @@ namespace RandomEvent
             return entries[entries.Count - 1];
         }
 
-        private void SpawnItem(string zoneID, ItemBaseSO itemData, int quantity, Vector3 position)
+        private void SpawnItem(string zoneID, string eventID, ItemBaseSO itemData, int quantity, Vector3 position)
         {
             GameObject prefabToSpawn = (itemData != null && itemData.ItemPrefab != null) 
                 ? itemData.ItemPrefab 
@@ -185,6 +267,7 @@ namespace RandomEvent
             _activeSpawnedItems.Add(new SpawnedItemRecord
             {
                 ZoneID = zoneID,
+                EventID = eventID,
                 GameObjectInstance = itemObject,
                 ItemData = itemData,
                 Quantity = quantity,
@@ -198,6 +281,7 @@ namespace RandomEvent
             {
                 itemObject.OnCollected -= HandleItemCollected;
                 _activeSpawnedItems.RemoveAll(r => r.GameObjectInstance == itemObject);
+                Progression.ProgressionManager.Instance?.RecalculateEcosystemHealth();
             }
         }
 
@@ -224,6 +308,7 @@ namespace RandomEvent
                 zoneSaveData.SpawnedItems.Add(new SpawnedItemData
                 {
                     ItemID = record.ItemData.ItemID,
+                    EventID = record.EventID,
                     Quantity = record.Quantity,
                     PosX = currentPos.x,
                     PosY = currentPos.y,
@@ -261,7 +346,7 @@ namespace RandomEvent
                     }
 
                     Vector3 position = new Vector3(itemData.PosX, itemData.PosY, itemData.PosZ);
-                    SpawnItem(zoneData.ZoneID, itemSO, itemData.Quantity, position);
+                    SpawnItem(zoneData.ZoneID, itemData.EventID, itemSO, itemData.Quantity, position);
                 }
             }
         }

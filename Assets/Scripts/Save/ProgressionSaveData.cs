@@ -8,5 +8,9 @@ namespace Save
         public int currentGoalIndex;
         public int currentAmount;
         public bool isAllGoalsCompleted;
+
+        public int trashCleanedCount;
+        public int mangrovesSubmittedCount;
+        public int unlockedMilestoneIndex;
     }
 }

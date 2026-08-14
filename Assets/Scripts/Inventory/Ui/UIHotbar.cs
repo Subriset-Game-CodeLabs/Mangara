@@ -18,6 +18,14 @@ namespace Ui
             InitializeHotbar();
         }
 
+        private void Update()
+        {
+            if (_inventoryData == null)
+            {
+                InitializeHotbar();
+            }
+        }
+
         public void InitializeHotbar()
         {
             if (_inventoryData != null) return;

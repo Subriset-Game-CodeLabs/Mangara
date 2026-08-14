@@ -1,4 +1,5 @@
 using System;
+using Progression;
 using UnityEngine;
 
 public class ItemObject : MonoBehaviour, IInteractable
@@ -27,8 +28,16 @@ public class ItemObject : MonoBehaviour, IInteractable
     {
         if (_itemData == null) return;
 
-        InventoryController.Instance.AddItem(_itemData, _quantity);
         Debug.Log(_itemData.name + " picked up");
+
+        if (_itemData.IsTrash && ProgressionManager.Instance != null)
+        {
+            ProgressionManager.Instance.RecordTrashCleaned(_quantity);
+        }
+        else
+        {
+            InventoryController.Instance.AddItem(_itemData, _quantity);
+        }
 
         OnCollected?.Invoke(this);
         Destroy(gameObject);

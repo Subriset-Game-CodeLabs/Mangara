@@ -139,4 +139,23 @@ public class PlayerMovement : MonoBehaviour
         _animator.SetFloat(SpeedHash, targetAnimSpeedParam, 0.05f, Time.deltaTime);
         _animator.SetBool(IsCrouchingHash, _isCrouching);
     }
+
+    public void Teleport(Vector3 position, Quaternion rotation)
+    {
+        if (_rigidbody == null)
+        {
+            _rigidbody = GetComponent<Rigidbody>();
+        }
+
+        if (_rigidbody != null)
+        {
+            _rigidbody.linearVelocity = Vector3.zero;
+            _rigidbody.angularVelocity = Vector3.zero;
+            _rigidbody.position = position;
+            _rigidbody.rotation = rotation;
+        }
+
+        transform.position = position;
+        transform.rotation = rotation;
+    }
 }

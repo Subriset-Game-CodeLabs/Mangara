@@ -235,6 +235,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Bestiary"",
+                    ""type"": ""Button"",
+                    ""id"": ""404e30c9-3fba-4c10-a75d-3eb8591d7475"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -246,6 +255,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Todo"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""34b06d8c-026f-495b-90a7-9d7b83415250"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Bestiary"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -745,6 +765,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Bestiary"",
+                    ""type"": ""Button"",
+                    ""id"": ""404e30c9-3fba-4c10-a75d-3eb8591d7476"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Submit"",
                     ""type"": ""Button"",
                     ""id"": ""7607c7b6-cd76-4816-beef-bd0341cfe950"",
@@ -1115,6 +1144,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""34b06d8c-026f-495b-90a7-9d7b83415251"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Bestiary"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""9e92bb26-7e3b-4ec4-b06b-3c8f8e498ddc"",
                     ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
@@ -1351,11 +1391,13 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Player_Hotbar4 = m_Player.FindAction("Hotbar4", throwIfNotFound: true);
         m_Player_Hotbar5 = m_Player.FindAction("Hotbar5", throwIfNotFound: true);
         m_Player_Todo = m_Player.FindAction("Todo", throwIfNotFound: true);
+        m_Player_Bestiary = m_Player.FindAction("Bestiary", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
         m_UI_Inventory = m_UI.FindAction("Inventory", throwIfNotFound: true);
         m_UI_Todo = m_UI.FindAction("Todo", throwIfNotFound: true);
+        m_UI_Bestiary = m_UI.FindAction("Bestiary", throwIfNotFound: true);
         m_UI_Submit = m_UI.FindAction("Submit", throwIfNotFound: true);
         m_UI_Cancel = m_UI.FindAction("Cancel", throwIfNotFound: true);
         m_UI_Point = m_UI.FindAction("Point", throwIfNotFound: true);
@@ -1462,6 +1504,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Hotbar4;
     private readonly InputAction m_Player_Hotbar5;
     private readonly InputAction m_Player_Todo;
+    private readonly InputAction m_Player_Bestiary;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1538,6 +1581,10 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Todo => m_Wrapper.m_Player_Todo;
         /// <summary>
+        /// Provides access to the underlying input action "Player/Bestiary".
+        /// </summary>
+        public InputAction @Bestiary => m_Wrapper.m_Player_Bestiary;
+        /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -1611,6 +1658,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Todo.started += instance.OnTodo;
             @Todo.performed += instance.OnTodo;
             @Todo.canceled += instance.OnTodo;
+            @Bestiary.started += instance.OnBestiary;
+            @Bestiary.performed += instance.OnBestiary;
+            @Bestiary.canceled += instance.OnBestiary;
         }
 
         /// <summary>
@@ -1670,6 +1720,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Todo.started -= instance.OnTodo;
             @Todo.performed -= instance.OnTodo;
             @Todo.canceled -= instance.OnTodo;
+            @Bestiary.started -= instance.OnBestiary;
+            @Bestiary.performed -= instance.OnBestiary;
+            @Bestiary.canceled -= instance.OnBestiary;
         }
 
         /// <summary>
@@ -1710,6 +1763,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Navigate;
     private readonly InputAction m_UI_Inventory;
     private readonly InputAction m_UI_Todo;
+    private readonly InputAction m_UI_Bestiary;
     private readonly InputAction m_UI_Submit;
     private readonly InputAction m_UI_Cancel;
     private readonly InputAction m_UI_Point;
@@ -1742,6 +1796,10 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "UI/Todo".
         /// </summary>
         public InputAction @Todo => m_Wrapper.m_UI_Todo;
+        /// <summary>
+        /// Provides access to the underlying input action "UI/Bestiary".
+        /// </summary>
+        public InputAction @Bestiary => m_Wrapper.m_UI_Bestiary;
         /// <summary>
         /// Provides access to the underlying input action "UI/Submit".
         /// </summary>
@@ -1813,6 +1871,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Todo.started += instance.OnTodo;
             @Todo.performed += instance.OnTodo;
             @Todo.canceled += instance.OnTodo;
+            @Bestiary.started += instance.OnBestiary;
+            @Bestiary.performed += instance.OnBestiary;
+            @Bestiary.canceled += instance.OnBestiary;
             @Submit.started += instance.OnSubmit;
             @Submit.performed += instance.OnSubmit;
             @Submit.canceled += instance.OnSubmit;
@@ -1860,6 +1921,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Todo.started -= instance.OnTodo;
             @Todo.performed -= instance.OnTodo;
             @Todo.canceled -= instance.OnTodo;
+            @Bestiary.started -= instance.OnBestiary;
+            @Bestiary.performed -= instance.OnBestiary;
+            @Bestiary.canceled -= instance.OnBestiary;
             @Submit.started -= instance.OnSubmit;
             @Submit.performed -= instance.OnSubmit;
             @Submit.canceled -= instance.OnSubmit;
@@ -2104,6 +2168,13 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTodo(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Bestiary" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBestiary(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
@@ -2133,6 +2204,13 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTodo(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Bestiary" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBestiary(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Submit" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

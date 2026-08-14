@@ -54,6 +54,8 @@ public class UiInventoryPage : MonoBehaviour
         {
             _ownerHandler.InventoryData.OnSelectedSlotChanged += UpdateSelectedSlot;
         }
+
+        ResetAllitems();
     }
 
     private void OnDestroy()
@@ -153,6 +155,7 @@ public class UiInventoryPage : MonoBehaviour
     public void Show()
     {
         gameObject.SetActive(true);
+        ResetAllitems();
         if (_ownerHandler != null && _ownerHandler.InventoryData != null)
         {
             UpdateSelectedSlot(_ownerHandler.InventoryData.SelectedSlotIndex);
@@ -168,8 +171,11 @@ public class UiInventoryPage : MonoBehaviour
     {
         foreach (var uiInventoryItem in _listInventoryItem)
         {
-            uiInventoryItem.ResetData();
-            uiInventoryItem.Deselect();
+            if (uiInventoryItem != null)
+            {
+                uiInventoryItem.ResetData();
+                uiInventoryItem.Deselect();
+            }
         }
     }
     

@@ -58,6 +58,11 @@ public class PlantSite : MonoBehaviour, IInteractable
                 ItemMangroveSO mangroveItem = selectedSlotItem.Item as ItemMangroveSO;
                 InventoryController.Instance.UseSelectedItem(1);
                 _mangroveController.Plant(mangroveItem?.mangroveData);
+
+                if (AudioManager.Instance != null)
+                {
+                    AudioManager.Instance.PlaySFX("tanam_sfx", transform.position);
+                }
                 break;
             }
             case PlantState.Planted:
@@ -66,6 +71,11 @@ public class PlantSite : MonoBehaviour, IInteractable
                 if (_mangroveController.IsWatered)
                     return;
                 _mangroveController.Water();
+
+                if (AudioManager.Instance != null)
+                {
+                    AudioManager.Instance.PlaySFX("nyriram_sfx", transform.position);
+                }
                 break;
             }
             case PlantState.Harvestable:

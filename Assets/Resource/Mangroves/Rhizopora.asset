@@ -13,11 +13,10 @@ MonoBehaviour:
   m_Name: Rhizopora
   m_EditorClassIdentifier: Assembly-CSharp::MangroveData
   _name: Rhizophora
-  _daysPerStage: 0200000003000000
+  _daysPerStage: 03000000
   _stageObjects:
-  - {fileID: 3630250156714186656, guid: cf36b249db837e04297a1413c0c5e66e, type: 3}
-  - {fileID: 3630250156714186656, guid: 8f2c781563563394f941eff0c478c3ef, type: 3}
-  - {fileID: 3630250156714186656, guid: 6c17da72218a4b448ac66289e7442534, type: 3}
+  - {fileID: 1694873765142418087, guid: 53e09e74516ef944aa66e64fddc1627c, type: 3}
+  - {fileID: 6797979317241244594, guid: 744ad8e65c3e30d4694290fba62e1fb3, type: 3}
   _harvestItem: {fileID: 11400000, guid: 4c6c46710d96fcb43ba7c09ed01a470e, type: 2}
   _harvestAmount: 1
   ID: rhizophora_mucronata

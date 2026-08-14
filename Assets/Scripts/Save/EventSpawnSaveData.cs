@@ -6,6 +6,7 @@ namespace Save
     public class SpawnedItemData
     {
         public string ItemID;
+        public string EventID;
         public int Quantity;
         public float PosX;
         public float PosY;

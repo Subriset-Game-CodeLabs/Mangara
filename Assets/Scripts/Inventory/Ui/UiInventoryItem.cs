@@ -15,7 +15,14 @@ public class UiInventoryItem : MonoBehaviour, IPointerClickHandler, IBeginDragHa
     
     public void ResetData()
     {
-        _itemImage.gameObject.SetActive(false);
+        if (_itemImage != null)
+        {
+            _itemImage.gameObject.SetActive(false);
+        }
+        if (_quantityText != null)
+        {
+            _quantityText.text = "";
+        }
         _empty = true;
     }
 
