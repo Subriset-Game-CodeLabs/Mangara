@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using System.Linq;
 using Sirenix.OdinInspector.Editor;
@@ -25,3 +26,4 @@ public class DataManager : OdinMenuEditorWindow
         return tree;
     }
 }
+#endif

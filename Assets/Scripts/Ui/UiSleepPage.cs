@@ -85,7 +85,14 @@ namespace Ui
                 var goal = ProgressionManager.Instance.CurrentGoal;
                 if (goal != null)
                 {
-                    goalText = $"{goal.GoalTitle} ({ProgressionManager.Instance.CurrentAmount}/{goal.TargetAmount})";
+                    if (ProgressionManager.Instance.IsGoalReadyToAdvance)
+                    {
+                        goalText = $"{goal.GoalTitle} (Completed! New goal Unlocked Tomorrow)";
+                    }
+                    else
+                    {
+                        goalText = $"{goal.GoalTitle} ({ProgressionManager.Instance.CurrentAmount}/{goal.TargetAmount})";
+                    }
                 }
                 else if (ProgressionManager.Instance.IsAllGoalsCompleted)
                 {
@@ -131,7 +138,8 @@ namespace Ui
 
             if (_statsSummaryText != null)
             {
-                _statsSummaryText.text = $"Ecosystem Health: {currentHealth:F0}% / {currentCap:F0}% Cap\n" +
+                // $"Ecosystem Health: {currentHealth:F0}% / {currentCap:F0}% Cap\n" +
+                _statsSummaryText.text = 
                                          $"Mangroves Submitted: {mangrovesToday} Today ({mangrovesTotal} Total)\n" +
                                          $"Trash Cleaned: {trashToday} Today ({trashTotal} Total)\n" +
                                          $"Active Trash Remaining: {activeTrash}\n" +

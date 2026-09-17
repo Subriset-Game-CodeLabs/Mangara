@@ -4,7 +4,9 @@
 // for the base setup for compute shaders
 using System.Collections.Generic;
 using System.Linq;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 [ExecuteInEditMode]

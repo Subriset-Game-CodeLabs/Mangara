@@ -35,6 +35,7 @@ namespace Progression
         private int _currentGoalIndex = 0;
         private int _currentAmount = 0;
         private bool _isAllGoalsCompleted = false;
+        private bool _isGoalReadyToAdvance = false;
 
         public ProgressionGoalSO CurrentGoal => (_goals != null && _currentGoalIndex >= 0 && _currentGoalIndex < _goals.Count) 
             ? _goals[_currentGoalIndex] 
@@ -45,6 +46,7 @@ namespace Progression
         public int CurrentAmount => _currentAmount;
         public int TargetAmount => CurrentGoal != null ? CurrentGoal.TargetAmount : 0;
         public bool IsAllGoalsCompleted => _isAllGoalsCompleted;
+        public bool IsGoalReadyToAdvance => _isGoalReadyToAdvance;
 
         public int UnlockedMilestoneIndex => _unlockedMilestoneIndex;
         public float CurrentDayCap => (_milestones != null && _unlockedMilestoneIndex >= 0 && _unlockedMilestoneIndex < _milestones.Length) 
@@ -72,6 +74,22 @@ namespace Progression
             SubscribeToGameManager();
             NotifyStateChanged();
             RecalculateEcosystemHealth();
+        }
+
+        public void RefreshSubmitStationsVisibility()
+        {
+#if UNITY_2023_1_OR_NEWER
+            MangroveSubmitStation[] stations = FindObjectsByType<MangroveSubmitStation>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+#else
+            MangroveSubmitStation[] stations = FindObjectsOfType<MangroveSubmitStation>(true);
+#endif
+            foreach (var station in stations)
+            {
+                if (station != null)
+                {
+                    station.UpdateStationVisibility(CurrentGoalIndex, IsAllGoalsCompleted);
+                }
+            }
         }
 
         private void OnEnable()
@@ -105,6 +123,11 @@ namespace Progression
         {
             _trashCleanedToday = 0;
             _mangrovesSubmittedToday = 0;
+
+            if (_isGoalReadyToAdvance && !_isAllGoalsCompleted)
+            {
+                AdvanceToNextGoal();
+            }
 
             RecalculateEcosystemHealth();
 
@@ -182,20 +205,21 @@ namespace Progression
 
             if (_currentAmount >= CurrentGoal.TargetAmount)
             {
-                CompleteCurrentGoal();
-            }
-            else
-            {
-                OnProgressUpdated?.Invoke(_currentAmount, TargetAmount);
+                _isGoalReadyToAdvance = true;
+                Debug.Log($"[ProgressionManager] Goal requirement met for: {CurrentGoal.GoalTitle}. Sleep to advance to next goal.");
             }
 
+            OnProgressUpdated?.Invoke(_currentAmount, TargetAmount);
             RecalculateEcosystemHealth();
             return true;
         }
 
-        private void CompleteCurrentGoal()
+        public void AdvanceToNextGoal()
         {
+            if (_isAllGoalsCompleted || CurrentGoal == null) return;
+
             ProgressionGoalSO completedGoal = CurrentGoal;
+            _isGoalReadyToAdvance = false;
 
             // Trigger goal-specific UnityEvent
             completedGoal.OnGoalCompleted?.Invoke();
@@ -223,6 +247,8 @@ namespace Progression
                 OnGoalChanged?.Invoke(CurrentGoal);
                 OnProgressUpdated?.Invoke(_currentAmount, TargetAmount);
             }
+
+            RefreshSubmitStationsVisibility();
         }
 
         public void NotifyStateChanged()
@@ -239,6 +265,7 @@ namespace Progression
             }
 
             OnEcosystemHealthChanged?.Invoke(EcosystemHealthIndex);
+            RefreshSubmitStationsVisibility();
         }
 
         public ProgressionSaveData GetSaveData()
@@ -248,6 +275,7 @@ namespace Progression
                 currentGoalIndex = _currentGoalIndex,
                 currentAmount = _currentAmount,
                 isAllGoalsCompleted = _isAllGoalsCompleted,
+                isGoalReadyToAdvance = _isGoalReadyToAdvance,
                 trashCleanedCount = _trashCleanedCount,
                 mangrovesSubmittedCount = _mangrovesSubmittedCount,
                 unlockedMilestoneIndex = _unlockedMilestoneIndex
@@ -261,6 +289,7 @@ namespace Progression
             _currentGoalIndex = data.currentGoalIndex;
             _currentAmount = data.currentAmount;
             _isAllGoalsCompleted = data.isAllGoalsCompleted;
+            _isGoalReadyToAdvance = data.isGoalReadyToAdvance;
             _trashCleanedCount = data.trashCleanedCount;
             _mangrovesSubmittedCount = data.mangrovesSubmittedCount;
             _unlockedMilestoneIndex = Mathf.Clamp(data.unlockedMilestoneIndex, 0, _milestones.Length - 1);
@@ -272,7 +301,7 @@ namespace Progression
 
             NotifyStateChanged();
             RecalculateEcosystemHealth();
-            Debug.Log($"[ProgressionManager] Loaded progression: Goal Index {_currentGoalIndex}, Amount {_currentAmount}, AllCompleted: {_isAllGoalsCompleted}, MilestoneTier: {_unlockedMilestoneIndex}, TrashCleaned: {_trashCleanedCount}, MangrovesSubmitted: {_mangrovesSubmittedCount}");
+            Debug.Log($"[ProgressionManager] Loaded progression: Goal Index {_currentGoalIndex}, Amount {_currentAmount}, ReadyToAdvance: {_isGoalReadyToAdvance}, AllCompleted: {_isAllGoalsCompleted}, MilestoneTier: {_unlockedMilestoneIndex}, TrashCleaned: {_trashCleanedCount}, MangrovesSubmitted: {_mangrovesSubmittedCount}");
         }
     }
 }

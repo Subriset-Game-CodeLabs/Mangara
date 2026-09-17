@@ -34,6 +34,17 @@ namespace Ui
             if (playerHandler == null) return;
 
             _inventoryData = playerHandler.InventoryData;
+
+            // Clear any pre-existing placeholder UI children from the content panel
+            if (_contentPanel != null)
+            {
+                foreach (Transform child in _contentPanel)
+                {
+                    Destroy(child.gameObject);
+                }
+            }
+            _hotbarSlots.Clear();
+
             int count = Mathf.Min(_inventoryData.HotbarSize, _inventoryData.Size);
 
             for (int i = 0; i < count; i++)

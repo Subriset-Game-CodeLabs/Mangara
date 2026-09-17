@@ -15,9 +15,18 @@ namespace Ui
         [Tooltip("The parent panel object for the Main Menu UI.")]
         [SerializeField] private GameObject _mainMenuPanel;
 
+        [Tooltip("The Settings Panel UI object or component.")]
+        [SerializeField] private GameObject _settingsPanel;
+
+        [Tooltip("Optional reference to SettingsMenuUI component.")]
+        [SerializeField] private SettingsMenuUI _settingsMenuUI;
+
         [Header("Button References")]
         [Tooltip("Button that starts or plays the game.")]
         [SerializeField] private Button _playButton;
+
+        [Tooltip("Button that opens the Settings Panel.")]
+        [SerializeField] private Button _settingsButton;
 
         [Tooltip("Button that exits the game application.")]
         [SerializeField] private Button _exitButton;
@@ -40,10 +49,20 @@ namespace Ui
                 _playButton.onClick.AddListener(PlayGame);
             }
 
+            if (_settingsButton != null)
+            {
+                _settingsButton.onClick.AddListener(OpenSettings);
+            }
+
             if (_exitButton != null)
             {
                 _exitButton.onClick.AddListener(ExitGame);
             }
+        }
+
+        private void OnEnable()
+        {
+            EnsureCursorVisible();
         }
 
         private void Start()
@@ -51,15 +70,26 @@ namespace Ui
             // Reset time scale in case returning from a paused state
             Time.timeScale = 1f;
 
-            // Configure input mode and cursor state for UI navigation
+            EnsureCursorVisible();
+        }
+
+        private void Update()
+        {
+            if (!Cursor.visible || Cursor.lockState != CursorLockMode.None)
+            {
+                EnsureCursorVisible();
+            }
+        }
+
+        private void EnsureCursorVisible()
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+
+            // Configure input mode for UI navigation
             if (InputManager.Instance != null)
             {
                 InputManager.Instance.UIMode();
-            }
-            else
-            {
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
             }
         }
 
@@ -70,9 +100,32 @@ namespace Ui
                 _playButton.onClick.RemoveListener(PlayGame);
             }
 
+            if (_settingsButton != null)
+            {
+                _settingsButton.onClick.RemoveListener(OpenSettings);
+            }
+
             if (_exitButton != null)
             {
                 _exitButton.onClick.RemoveListener(ExitGame);
+            }
+        }
+
+        /// <summary>
+        /// Opens the Settings Panel UI.
+        /// </summary>
+        public void OpenSettings()
+        {
+            PlayButtonClickSound();
+
+            if (_settingsMenuUI != null)
+            {
+                _settingsMenuUI.OpenSettings();
+            }
+            else
+            {
+                if (_mainMenuPanel != null) _mainMenuPanel.SetActive(false);
+                if (_settingsPanel != null) _settingsPanel.SetActive(true);
             }
         }
 

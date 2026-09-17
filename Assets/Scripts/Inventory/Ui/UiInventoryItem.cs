@@ -17,6 +17,7 @@ public class UiInventoryItem : MonoBehaviour, IPointerClickHandler, IBeginDragHa
     {
         if (_itemImage != null)
         {
+            _itemImage.sprite = null;
             _itemImage.gameObject.SetActive(false);
         }
         if (_quantityText != null)

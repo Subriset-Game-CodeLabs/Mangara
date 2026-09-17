@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System.Collections.Generic;
 using Unity.Burst;
 using Unity.Collections;
@@ -1330,4 +1331,5 @@ public class GrassPainterWindow : EditorWindow
 
 #endif
 }
+#endif
 

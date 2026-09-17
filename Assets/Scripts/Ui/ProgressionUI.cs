@@ -239,7 +239,14 @@ namespace Ui
                 else if (i == currentIndex)
                 {
                     sb.AppendLine($"- {goal.GoalTitle}");
-                    sb.AppendLine($"  {currentAmount} / {goal.TargetAmount}");
+                    if (ProgressionManager.Instance.IsGoalReadyToAdvance)
+                    {
+                        sb.AppendLine($"  {currentAmount} / {goal.TargetAmount} (Sleep to advance!)");
+                    }
+                    else
+                    {
+                        sb.AppendLine($"  {currentAmount} / {goal.TargetAmount}");
+                    }
                 }
                 else
                 {

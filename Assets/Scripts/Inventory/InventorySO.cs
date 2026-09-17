@@ -65,6 +65,7 @@ public class InventorySO : ScriptableObject
         {
             _inventoryItems.Add(InventoryItem.GetEmptyItem());
         }
+        InformAboutChange();
     }
 
     private void ResizeList()

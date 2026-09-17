@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RandomEvent.RandomEventSO
   EventID: random_seed_beach
   EventName: Random Mangrove Seed
-  Probability: 0.9
+  Probability: 1
   SpawnEntries:
   - Item: {fileID: 11400000, guid: f8ab18e18ef454040a1f25bf486d8e98, type: 2}
     Quantity: 2
