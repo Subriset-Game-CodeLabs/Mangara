@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using FMODUnity;
 using Item;
 using Manager;
 using Mangrove;
@@ -8,37 +9,39 @@ public class PlantSite : MonoBehaviour, IInteractable
 {
     [SerializeField] private List<ItemBaseSO> _acceptedItems;
     [SerializeField] private MangroveController _mangroveController;
+    [SerializeField] private EventReference _sfxNyiramEvent;
+    [SerializeField] private EventReference _sfxTanamEvent;
 
     public string GetInteractText()
     {
         switch (_mangroveController.PlantState)
         {
             case PlantState.Empty:
-            {
-                InventoryItem selectedSlotItem = InventoryController.Instance.GetSelectedItem();
-                if (!selectedSlotItem.IsEmpty && IsAcceptedSeed(selectedSlotItem.Item))
                 {
-                    return $"Plant {selectedSlotItem.Item.ItemName}";
+                    InventoryItem selectedSlotItem = InventoryController.Instance.GetSelectedItem();
+                    if (!selectedSlotItem.IsEmpty && IsAcceptedSeed(selectedSlotItem.Item))
+                    {
+                        return $"Plant {selectedSlotItem.Item.ItemName}";
+                    }
+                    else if (InventoryController.Instance.GetUsableItems(_acceptedItems).Count > 0)
+                    {
+                        return "Equip Seed to Plant";
+                    }
+                    return "Requires Seed";
                 }
-                else if (InventoryController.Instance.GetUsableItems(_acceptedItems).Count > 0)
-                {
-                    return "Equip Seed to Plant";
-                }
-                return "Requires Seed";
-            }
             case PlantState.Planted:
             case PlantState.Growing:
-            {
-                if (!_mangroveController.IsWatered)
                 {
-                    return "Water Plant";
+                    if (!_mangroveController.IsWatered)
+                    {
+                        return "Water Plant";
+                    }
+                    break;
                 }
-                break;
-            }
             case PlantState.Harvestable:
-            {
-                return "Harvest Plant";
-            }
+                {
+                    return "Harvest Plant";
+                }
         }
         return "";
     }
@@ -48,43 +51,47 @@ public class PlantSite : MonoBehaviour, IInteractable
         switch (_mangroveController.PlantState)
         {
             case PlantState.Empty:
-            {
-                InventoryItem selectedSlotItem = InventoryController.Instance.GetSelectedItem();
-                if (selectedSlotItem.IsEmpty || !IsAcceptedSeed(selectedSlotItem.Item))
                 {
-                    return;
-                }
+                    InventoryItem selectedSlotItem = InventoryController.Instance.GetSelectedItem();
+                    if (selectedSlotItem.IsEmpty || !IsAcceptedSeed(selectedSlotItem.Item))
+                    {
+                        return;
+                    }
 
-                ItemMangroveSO mangroveItem = selectedSlotItem.Item as ItemMangroveSO;
-                InventoryController.Instance.UseSelectedItem(1);
-                _mangroveController.Plant(mangroveItem?.mangroveData);
+                    ItemMangroveSO mangroveItem = selectedSlotItem.Item as ItemMangroveSO;
+                    InventoryController.Instance.UseSelectedItem(1);
+                    _mangroveController.Plant(mangroveItem?.mangroveData);
 
-                if (AudioManager.Instance != null)
-                {
-                    AudioManager.Instance.PlaySFX("tanam_sfx", transform.position);
+                    // if (AudioManager.Instance != null)
+                    // {
+                    //     AudioManager.Instance.PlaySFX("tanam_sfx", transform.position);
+                    // }
+
+                    RuntimeManager.PlayOneShot(_sfxTanamEvent);
+                    break;
                 }
-                break;
-            }
             case PlantState.Planted:
             case PlantState.Growing:
-            {
-                if (_mangroveController.IsWatered)
-                    return;
-                _mangroveController.Water();
-
-                if (AudioManager.Instance != null)
                 {
-                    AudioManager.Instance.PlaySFX("nyriram_sfx", transform.position);
+                    if (_mangroveController.IsWatered)
+                        return;
+                    _mangroveController.Water();
+
+                    // if (AudioManager.Instance != null)
+                    // {
+                    //     AudioManager.Instance.PlaySFX("nyriram_sfx", transform.position);
+                    // }
+
+                    RuntimeManager.PlayOneShot(_sfxNyiramEvent);
+                    break;
                 }
-                break;
-            }
             case PlantState.Harvestable:
-            {
-                var harvest= _mangroveController.Harvest();
-                if (harvest != null) 
-                    InventoryController.Instance.AddItem(harvest.Value.item, harvest.Value.quantity);
-                break;
-            }
+                {
+                    var harvest = _mangroveController.Harvest();
+                    if (harvest != null)
+                        InventoryController.Instance.AddItem(harvest.Value.item, harvest.Value.quantity);
+                    break;
+                }
         }
     }
 

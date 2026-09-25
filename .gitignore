@@ -76,3 +76,6 @@ crashlytics-build.properties
 
 # Documentation
 /docs
+
+# FMOD
+[Aa]ssets/FMODStudioCache/

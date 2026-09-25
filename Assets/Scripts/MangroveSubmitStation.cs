@@ -197,10 +197,10 @@ public class MangroveSubmitStation : MonoBehaviour, IInteractable
         _pendingSubmittedItem = itemToSubmit;
         SpawnPreviewModel();
 
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.PlaySFX("tanam_sfx", transform.position);
-        }
+        // if (AudioManager.Instance != null)
+        // {
+        //     AudioManager.Instance.PlaySFX("tanam_sfx", transform.position);
+        // }
 
         Debug.Log($"[MangroveSubmitStation '{_stationID}'] Submitted {itemToSubmit.ItemName}");
 

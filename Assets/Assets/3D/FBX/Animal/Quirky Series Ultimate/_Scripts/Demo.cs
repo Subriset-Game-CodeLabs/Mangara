@@ -83,10 +83,10 @@ public class Demo : MonoBehaviour {
 
 	void Update() {
 
-		if(Input.GetKeyDown("up")) { PrevAnimal(); }
-		else if(Input.GetKeyDown("down")) { NextAnimal(); }
-		else if(Input.GetKeyDown("right")) { NextAnimation(); }
-		else if(Input.GetKeyDown("left")) { PrevAnimation(); }
+		// if(Input.GetKeyDown("up")) { PrevAnimal(); }
+		// else if(Input.GetKeyDown("down")) { NextAnimal(); }
+		// else if(Input.GetKeyDown("right")) { NextAnimation(); }
+		// else if(Input.GetKeyDown("left")) { PrevAnimation(); }
 	}
 
 

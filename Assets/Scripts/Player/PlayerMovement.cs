@@ -1,4 +1,6 @@
 using System;
+using FMOD.Studio;
+using FMODUnity;
 using Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -15,6 +17,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _jogSpeed = 6f;
     [SerializeField] private float _crouchSpeed = 1.5f;
     [SerializeField] private float _speedDamping = 10f;
+
+    [Header("Footstep Audio")]
+    [SerializeField] private EventReference _footstepEvent;
+    private EventInstance _footstepInstance;
+    private bool _isFootstepPlaying;
+    private PARAMETER_ID _speedParamId;
 
     private Rigidbody _rigidbody;
     private Vector2 _movement;
@@ -43,12 +51,44 @@ public class PlayerMovement : MonoBehaviour
         {
             _animator = GetComponentInChildren<Animator>();
         }
+
+        _footstepInstance = RuntimeManager.CreateInstance(_footstepEvent);
+        RuntimeManager.AttachInstanceToGameObject(_footstepInstance, gameObject);
+
+        // Cache the parameter ID once instead of doing a string lookup every frame
+        EventDescription desc;
+        _footstepInstance.getDescription(out desc);
+        PARAMETER_DESCRIPTION paramDesc;
+        desc.getParameterDescriptionByName("MoveSpeed", out paramDesc);
+        _speedParamId = paramDesc.id;
     }
 
     private void Update()
     {
         ReadInput();
         UpdateAnimations();
+        UpdateFootstepAudio();
+    }
+
+    private void UpdateFootstepAudio()
+    {
+        bool hasInput = _movement.sqrMagnitude > 0.01f;
+
+        if (hasInput && !_isFootstepPlaying)
+        {
+            _footstepInstance.start();
+            _isFootstepPlaying = true;
+        }
+        else if (!hasInput && _isFootstepPlaying)
+        {
+            _footstepInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            _isFootstepPlaying = false;
+        }
+
+        if (_isFootstepPlaying)
+        {
+            _footstepInstance.setParameterByID(_speedParamId, _currentSpeed);
+        }
     }
 
     private void ReadInput()
@@ -100,12 +140,16 @@ public class PlayerMovement : MonoBehaviour
             _targetSpeed = _walkSpeed;
         }
 
+
+        Debug.Log(_targetSpeed);
+
+
         _currentSpeed = Mathf.Lerp(_currentSpeed, _targetSpeed, Time.fixedDeltaTime * _speedDamping);
 
         // MENGGUNAKAN VELOCITY (Bukan MovePosition)
         // Menjaga nilai Y (gravitasi) tetap sama
         Vector3 targetVelocity = moveDirection * _currentSpeed;
-        
+
 #if UNITY_6000_0_OR_NEWER
         _rigidbody.linearVelocity = new Vector3(targetVelocity.x, _rigidbody.linearVelocity.y, targetVelocity.z);
 #else
@@ -157,5 +201,11 @@ public class PlayerMovement : MonoBehaviour
 
         transform.position = position;
         transform.rotation = rotation;
+    }
+
+    private void OnDestroy()
+    {
+        _footstepInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        _footstepInstance.release();
     }
 }

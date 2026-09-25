@@ -2939,6 +2939,20 @@ MonoBehaviour:
   _acceptedItems:
   - {fileID: 11400000, guid: f8ab18e18ef454040a1f25bf486d8e98, type: 2}
   _mangroveController: {fileID: 159945141}
+  _sfxNyiramEvent:
+    Guid:
+      Data1: 694884768
+      Data2: 1256747854
+      Data3: 59071916
+      Data4: 769778249
+    Path: event:/SFX_Nyiram
+  _sfxTanamEvent:
+    Guid:
+      Data1: -1981273051
+      Data2: 1161155009
+      Data3: 1288570291
+      Data4: -231528587
+    Path: event:/SFX_Tanam
 --- !u!114 &159945141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5719,6 +5733,20 @@ MonoBehaviour:
   _acceptedItems:
   - {fileID: 11400000, guid: f8ab18e18ef454040a1f25bf486d8e98, type: 2}
   _mangroveController: {fileID: 338205388}
+  _sfxNyiramEvent:
+    Guid:
+      Data1: 694884768
+      Data2: 1256747854
+      Data3: 59071916
+      Data4: 769778249
+    Path: event:/SFX_Nyiram
+  _sfxTanamEvent:
+    Guid:
+      Data1: -1981273051
+      Data2: 1161155009
+      Data3: 1288570291
+      Data4: -231528587
+    Path: event:/SFX_Tanam
 --- !u!114 &338205388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5873,6 +5901,20 @@ MonoBehaviour:
   _acceptedItems:
   - {fileID: 11400000, guid: f8ab18e18ef454040a1f25bf486d8e98, type: 2}
   _mangroveController: {fileID: 349705279}
+  _sfxNyiramEvent:
+    Guid:
+      Data1: 694884768
+      Data2: 1256747854
+      Data3: 59071916
+      Data4: 769778249
+    Path: event:/SFX_Nyiram
+  _sfxTanamEvent:
+    Guid:
+      Data1: -1981273051
+      Data2: 1161155009
+      Data3: 1288570291
+      Data4: -231528587
+    Path: event:/SFX_Tanam
 --- !u!114 &349705279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7050,6 +7092,20 @@ MonoBehaviour:
   _acceptedItems:
   - {fileID: 11400000, guid: f8ab18e18ef454040a1f25bf486d8e98, type: 2}
   _mangroveController: {fileID: 419021305}
+  _sfxNyiramEvent:
+    Guid:
+      Data1: 694884768
+      Data2: 1256747854
+      Data3: 59071916
+      Data4: 769778249
+    Path: event:/SFX_Nyiram
+  _sfxTanamEvent:
+    Guid:
+      Data1: -1981273051
+      Data2: 1161155009
+      Data3: 1288570291
+      Data4: -231528587
+    Path: event:/SFX_Tanam
 --- !u!114 &419021305
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9088,6 +9144,13 @@ MonoBehaviour:
   _jogSpeed: 10
   _crouchSpeed: 1.5
   _speedDamping: 10
+  _footstepEvent:
+    Guid:
+      Data1: -1665291538
+      Data2: 1085634083
+      Data3: 7684999
+      Data4: -385286407
+    Path: event:/SFX_Walk
 --- !u!54 &521265162
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10095,6 +10158,20 @@ MonoBehaviour:
   _acceptedItems:
   - {fileID: 11400000, guid: f8ab18e18ef454040a1f25bf486d8e98, type: 2}
   _mangroveController: {fileID: 633857560}
+  _sfxNyiramEvent:
+    Guid:
+      Data1: 694884768
+      Data2: 1256747854
+      Data3: 59071916
+      Data4: 769778249
+    Path: event:/SFX_Nyiram
+  _sfxTanamEvent:
+    Guid:
+      Data1: -1981273051
+      Data2: 1161155009
+      Data3: 1288570291
+      Data4: -231528587
+    Path: event:/SFX_Tanam
 --- !u!114 &633857560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11582,6 +11659,20 @@ MonoBehaviour:
   _acceptedItems:
   - {fileID: 11400000, guid: f8ab18e18ef454040a1f25bf486d8e98, type: 2}
   _mangroveController: {fileID: 753010587}
+  _sfxNyiramEvent:
+    Guid:
+      Data1: 694884768
+      Data2: 1256747854
+      Data3: 59071916
+      Data4: 769778249
+    Path: event:/SFX_Nyiram
+  _sfxTanamEvent:
+    Guid:
+      Data1: -1981273051
+      Data2: 1161155009
+      Data3: 1288570291
+      Data4: -231528587
+    Path: event:/SFX_Tanam
 --- !u!114 &753010587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17669,6 +17760,20 @@ MonoBehaviour:
   _acceptedItems:
   - {fileID: 11400000, guid: f8ab18e18ef454040a1f25bf486d8e98, type: 2}
   _mangroveController: {fileID: 1144641331}
+  _sfxNyiramEvent:
+    Guid:
+      Data1: 694884768
+      Data2: 1256747854
+      Data3: 59071916
+      Data4: 769778249
+    Path: event:/SFX_Nyiram
+  _sfxTanamEvent:
+    Guid:
+      Data1: -1981273051
+      Data2: 1161155009
+      Data3: 1288570291
+      Data4: -231528587
+    Path: event:/SFX_Tanam
 --- !u!114 &1144641331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29047,6 +29152,20 @@ MonoBehaviour:
   _acceptedItems:
   - {fileID: 11400000, guid: f8ab18e18ef454040a1f25bf486d8e98, type: 2}
   _mangroveController: {fileID: 1803624762}
+  _sfxNyiramEvent:
+    Guid:
+      Data1: 694884768
+      Data2: 1256747854
+      Data3: 59071916
+      Data4: 769778249
+    Path: event:/SFX_Nyiram
+  _sfxTanamEvent:
+    Guid:
+      Data1: -1981273051
+      Data2: 1161155009
+      Data3: 1288570291
+      Data4: -231528587
+    Path: event:/SFX_Tanam
 --- !u!114 &1803624762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30107,6 +30226,7 @@ GameObject:
   - component: {fileID: 1854048358}
   - component: {fileID: 1854048359}
   - component: {fileID: 1854048360}
+  - component: {fileID: 1854048361}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -30247,6 +30367,25 @@ MonoBehaviour:
       respirasi melalui lentisel yang memungkinkan pertukaran gas saat akar terendam
       air. '
     mangroveImage: {fileID: 21300000, guid: 44d5739fdde5bcf449105adeb7e3934f, type: 3}
+--- !u!114 &1854048361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1854048352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dcca1c132177b244bc194fa2d96465b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BGM
+  bgmEvent:
+    Guid:
+      Data1: -1483809901
+      Data2: 1085464671
+      Data3: -356403810
+      Data4: -1569240743
+    Path: event:/BGM_test
 --- !u!1 &1854529848
 GameObject:
   m_ObjectHideFlags: 0
@@ -32167,9 +32306,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1960264551}
   - component: {fileID: 1960264550}
-  - component: {fileID: 1960264549}
   - component: {fileID: 1960264552}
   - component: {fileID: 1960264553}
+  - component: {fileID: 1960264554}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -32177,14 +32316,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1960264549
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1960264548}
-  m_Enabled: 1
 --- !u!20 &1960264550
 Camera:
   m_ObjectHideFlags: 0
@@ -32327,6 +32458,20 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   CustomBlends: {fileID: 0}
+--- !u!114 &1960264554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1960264548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!4 &1962219288 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3ffc6907dddb6c64e8f83fea8dcaa334, type: 3}
@@ -34290,6 +34435,20 @@ MonoBehaviour:
   _acceptedItems:
   - {fileID: 11400000, guid: f8ab18e18ef454040a1f25bf486d8e98, type: 2}
   _mangroveController: {fileID: 2125358823}
+  _sfxNyiramEvent:
+    Guid:
+      Data1: 694884768
+      Data2: 1256747854
+      Data3: 59071916
+      Data4: 769778249
+    Path: event:/SFX_Nyiram
+  _sfxTanamEvent:
+    Guid:
+      Data1: -1981273051
+      Data2: 1161155009
+      Data3: 1288570291
+      Data4: -231528587
+    Path: event:/SFX_Tanam
 --- !u!114 &2125358823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34465,6 +34624,20 @@ MonoBehaviour:
   _acceptedItems:
   - {fileID: 11400000, guid: f8ab18e18ef454040a1f25bf486d8e98, type: 2}
   _mangroveController: {fileID: 2130977484}
+  _sfxNyiramEvent:
+    Guid:
+      Data1: 694884768
+      Data2: 1256747854
+      Data3: 59071916
+      Data4: 769778249
+    Path: event:/SFX_Nyiram
+  _sfxTanamEvent:
+    Guid:
+      Data1: -1981273051
+      Data2: 1161155009
+      Data3: 1288570291
+      Data4: -231528587
+    Path: event:/SFX_Tanam
 --- !u!114 &2130977484
 MonoBehaviour:
   m_ObjectHideFlags: 0

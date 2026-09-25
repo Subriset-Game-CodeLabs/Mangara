@@ -1,5 +1,4 @@
 using Manager;
-using Unity.Multiplayer.Center.Common;
 using UnityEngine;
 
 
@@ -18,15 +17,6 @@ public class LightingManager : MonoBehaviour
 
         UpdateLighting(GameManager.Instance.TimeOfDay / 24f);
         
-        // if (Application.isPlaying)
-        // {
-        //     timeOfDay += Time.deltaTime;
-        //     timeOfDay %= 24; // Loop the time of day back to 0 after reaching 24
-        // }
-        // else
-        // {
-        //     UpdateLighting(GameManager.Instance.TimeOfDay / 24f);
-        // }
     }
 
     private void UpdateLighting(float timePercent)
@@ -41,29 +31,5 @@ public class LightingManager : MonoBehaviour
         }
     }
     
-    // Try to find the directional light in the scene if it's not already assigned
-    private void OnValidate()
-    {
-        if (directionalLight != null)
-        return;
-
-        // Search for the directional light in the scene
-        if (RenderSettings.sun != null)
-        {
-            directionalLight = RenderSettings.sun;
-        }
-        // Search scene for the light that fits the criteria (directional light)
-        else
-        {
-            Light[] lights = GameObject.FindObjectsOfType<Light>();
-            foreach (Light light in lights)
-            {
-                if (light.type == LightType.Directional)
-                {
-                    directionalLight = light;
-                    return;
-                }
-            }
-        }
-    }
+    
 }
