@@ -30,3 +30,4 @@ MonoBehaviour:
   _inventoryType: 1
   _inventoryID: HomeChest
   <Size>k__BackingField: 7
+  <HotbarSize>k__BackingField: 5

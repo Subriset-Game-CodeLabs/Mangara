@@ -34,9 +34,33 @@ public class PlantSite : MonoBehaviour, IInteractable
                 {
                     if (!_mangroveController.IsWatered)
                     {
-                        return "Water Plant";
+                        InventoryItem selected = InventoryController.Instance.GetSelectedItem();
+
+                        if (!selected.IsEmpty && selected.Item is ItemToolSO tool && tool.ToolType == ToolType.WateringCan)
+                        {
+                            if (selected.Quantity > 0)
+                            {
+                                return $"Water Plant ({selected.Quantity}/{tool.MaxCharges})";
+                            }
+                            return "Watering Can is Empty";
+                        }
+
+                        Debug.Log("No Water Can");
+
+                        var inventory = InventoryController.Instance.InventoryHandler.InventoryData.GetCurrentInventoryState();
+                        bool hasWateringCanInInventory = false;
+                        foreach (var slot in inventory.Values)
+                        {
+                            if (slot.Item is ItemToolSO t && t.ToolType == ToolType.WateringCan)
+                            {
+                                hasWateringCanInInventory = true;
+                                break;
+                            }
+                        }
+                        return hasWateringCanInInventory ? "Equip Watering Can" : "Requires Watering Can";
                     }
                     break;
+
                 }
             case PlantState.Harvestable:
                 {
@@ -75,14 +99,17 @@ public class PlantSite : MonoBehaviour, IInteractable
                 {
                     if (_mangroveController.IsWatered)
                         return;
-                    _mangroveController.Water();
 
-                    // if (AudioManager.Instance != null)
-                    // {
-                    //     AudioManager.Instance.PlaySFX("nyriram_sfx", transform.position);
-                    // }
+                    InventoryItem selected = InventoryController.Instance.GetSelectedItem();
+                    if (!selected.IsEmpty && selected.Item is ItemToolSO tool && tool.ToolType == ToolType.WateringCan)
+                    {
+                        if (selected.Quantity <= 0) return;
 
-                    RuntimeManager.PlayOneShot(_sfxNyiramEvent);
+                        _mangroveController.Water();
+                        InventoryController.Instance.ConsumeSelectedToolCharge(1);
+                        RuntimeManager.PlayOneShot(_sfxNyiramEvent);
+                    }
+
                     break;
                 }
             case PlantState.Harvestable:

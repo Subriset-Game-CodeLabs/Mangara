@@ -11,14 +11,14 @@ using UnityEngine;
 [CreateAssetMenu]
 public class InventorySO : ScriptableObject
 {
-    [SerializeField] [TableList] private List<InventoryItem> _inventoryItems;
+    [SerializeField][TableList] private List<InventoryItem> _inventoryItems;
     [SerializeField] private InventoryType _inventoryType;
 
     [SerializeField] private string _inventoryID;
     public string InventoryID => _inventoryID;
 
-    [OnValueChanged("ResizeList")] 
-    [field: SerializeField] 
+    [OnValueChanged("ResizeList")]
+    [field: SerializeField]
     public int Size { get; private set; } = 10;
 
     [field: SerializeField]
@@ -268,18 +268,18 @@ public class InventorySO : ScriptableObject
 
         return returnValue;
     }
-    
+
     public void SetItemAt(int slotIndex, ItemBaseSO item, int quantity)
     {
         if (slotIndex < 0 || slotIndex >= _inventoryItems.Count) return;
-    
+
         _inventoryItems[slotIndex] = new InventoryItem
         {
-            Item     = item,
+            Item = item,
             Quantity = quantity
         };
-    
-        InformAboutChange(); 
+
+        InformAboutChange();
     }
 
     public InventorySaveData GetSaveData()
@@ -309,15 +309,35 @@ public class InventorySO : ScriptableObject
         foreach (InventorySlotData slot in saveData.Slots)
         {
             ItemBaseSO item = itemDatabase.GetItemByID(slot.ItemID);
-            
+
             if (item == null)
             {
                 Debug.LogWarning("Item not found: " + slot.ItemID);
                 continue;
             }
-            
+
             SetItemAt(slot.SlotIndex, item, slot.Quantity);
         }
+    }
+
+    public void ConsumeToolCharge(int slotIndex, int amount = 1)
+    {
+        if (slotIndex < 0 || slotIndex >= _inventoryItems.Count) return;
+        if (_inventoryItems[slotIndex].IsEmpty) return;
+
+        int current = _inventoryItems[slotIndex].Quantity;
+        int newCharge = Mathf.Max(0, current - amount);
+        _inventoryItems[slotIndex] = _inventoryItems[slotIndex].ChangeQuantity(newCharge);
+        InformAboutChange();
+    }
+
+    public void SetSlotQuantity(int slotIndex, int newQuantity)
+    {
+        if (slotIndex < 0 || slotIndex >= _inventoryItems.Count) return;
+        if (_inventoryItems[slotIndex].IsEmpty) return;
+
+        _inventoryItems[slotIndex] = _inventoryItems[slotIndex].ChangeQuantity(newQuantity);
+        InformAboutChange();
     }
 }
 

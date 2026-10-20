@@ -116,4 +116,16 @@ public class InventoryController : Singleton<InventoryController>
         int activeIndex = _inventoryHandler.InventoryData.SelectedSlotIndex;
         _inventoryHandler.InventoryData.RemoveItem(activeIndex, quantity);
     }
+
+    public void ConsumeSelectedToolCharge(int amount = 1)
+    {
+        int activeIndex = _inventoryHandler.InventoryData.SelectedSlotIndex;
+        _inventoryHandler.InventoryData.ConsumeToolCharge(activeIndex, amount);
+    }
+
+    public void RefillSelectedTool(int amount)
+    {
+        int activeIndex = _inventoryHandler.InventoryData.SelectedSlotIndex;
+        _inventoryHandler.InventoryData.SetSlotQuantity(activeIndex, amount);
+    }
 }

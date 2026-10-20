@@ -140,10 +140,6 @@ public class PlayerMovement : MonoBehaviour
             _targetSpeed = _walkSpeed;
         }
 
-
-        Debug.Log(_targetSpeed);
-
-
         _currentSpeed = Mathf.Lerp(_currentSpeed, _targetSpeed, Time.fixedDeltaTime * _speedDamping);
 
         // MENGGUNAKAN VELOCITY (Bukan MovePosition)
